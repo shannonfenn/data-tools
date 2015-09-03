@@ -42,9 +42,13 @@ if __name__ == '__main__':
     parser.add_argument('Ni', type=int, help='number of inputs (total)')
     parser.add_argument('num_samples', type=int, help='number of different samples')
     parser.add_argument('sample_size', type=int, help='number of examples in each sample')
-    parser.add_argument('--dir', type=str, default='samples', help='directory to store file')
+    parser.add_argument('--dir', type=str, default='experiments/datasets/samples',
+                        help='directory to store file')
 
     args = parser.parse_args()
+
+    if not os.path.isdir(args.dir):
+        raise OSError('Directory does not exist: {}'.format(args.dir))
 
     generate_and_dump_samples(args.Ni, args.num_samples, args.sample_size, args.dir)
 
