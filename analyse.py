@@ -1,10 +1,9 @@
-from collections import defaultdict
-import numpy
-import sys
-import json
 import palettable
 import networkx as nx
+import pandas as pd
 from itertools import cycle
+import sys
+import os
 sys.path.append('/home/shannon/HMRI/code/boolnet/')
 from boolnet.network.boolnetwork import BoolNetwork
 
@@ -32,9 +31,9 @@ def build_digraph_from_network(net):
         edges.append((gate[1], g + Ni))
     G.add_edges_from(edges)
 
-    G.graph['Ni'] = Ni
-    G.graph['No'] = No
-    G.graph['Ng'] = Ng
+    G.graph['Ni'] = int(Ni)
+    G.graph['No'] = int(No)
+    G.graph['Ng'] = int(Ng)
 
     return G
 
@@ -80,8 +79,8 @@ def find_dangling(G):
     return dangling
 
 
-def draw(result, path=None):
-    G = build_digraph_from_network(get_network_from_result(result))
+def draw(network, path=None):
+    G = build_digraph_from_network(network)
     annotate_graph(G)
     if path:
         if not path.endswith('.graphml'):
@@ -91,54 +90,20 @@ def draw(result, path=None):
         nx.draw(G)
 
 
-def collate(run_data):
-    results = run_data['results']
-
-    collated = defaultdict(list)
-    for result in results:
-        for key, val in result.items():
-            collated[key].append(val)
-    return collated
-
-
-def compare(filenames):
-    experiment_names = []
-    collated_results = []
-    for filename in filenames:
-        with open(filename) as f:
-            raw = json.load(f)
-        collated_results.append(collate(raw))
-        experiment_names.append(raw['settings']['name'])
-
-    import prettyplotlib as ppl
-    import matplotlib.pyplot as plt
-    from matplotlib import rcParams
-    rcParams.update({'figure.autolayout': True})
-
-    attributes = ['Full Error (simple)',
-                  'time']
-    for plt_num, attribute in enumerate(attributes):
-        fig, axs = plt.subplots()
-        fig.autofmt_xdate()
-        # fig.set_figwidth( 2 * fig.get_figwidth() )
-        # fig.set_figheight( 2 * fig.get_figheight() )
-        data = [result[attribute] for result in collated_results]
-        positions = numpy.arange(len(data)) + 0.5
-        ppl.boxplot(axs, data, positions=positions, xticklabels=experiment_names)
-        axs.set_ylim(bottom=0)
-        axs.set_title(attribute)
-        plt.savefig(attribute + '.png', bbox_inches='tight', orientation='portrait')
+def create_graphs(directory, indices=None):
+    result_filename = os.path.join(directory, 'results.json')
+    graph_filename_base = os.path.join(directory, 'network_')
+    results = pd.read_json(result_filename)
+    if not indices:
+        indices = range(len(results))
+    for i in indices:
+        graph_filename = graph_filename_base + '{}.graphml'.format(i)
+        net = get_network_from_result(results.iloc[i])
+        draw(net, graph_filename)
 
 
 def main(argv):
-    if len(argv) > 2:
-        compare(argv[1:])
-    elif len(argv) == 2:
-        with open(argv[1]) as f:
-            data = json.load(f)
-            generate_graphs(data)
-    else:
-        print('ARGS!')
+    pass
 
 if __name__ == '__main__':
     main(sys.argv)
