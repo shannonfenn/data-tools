@@ -1,0 +1,1315 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"complete",
+				"completed_df	statement"
+			],
+			[
+				"basic_",
+				"basic_others	statement"
+			],
+			[
+				"data",
+				"dataframe	param"
+			],
+			[
+				"var",
+				"variable_sets"
+			],
+			[
+				"learn",
+				"learner_result"
+			],
+			[
+				"lea",
+				"learned_targets"
+			],
+			[
+				"target",
+				"target_order"
+			],
+			[
+				"gra",
+				"graph_filename"
+			],
+			[
+				"res",
+				"result_filename"
+			],
+			[
+				"chan",
+				"changeable_gate"
+			],
+			[
+				"scoop",
+				"scoop_worker_wrapper"
+			],
+			[
+				"file_",
+				"file_name_base"
+			],
+			[
+				"zer",
+				"zero_mask_cols"
+			],
+			[
+				"in",
+				"in_indices"
+			],
+			[
+				"num",
+				"num_indices"
+			],
+			[
+				"max",
+				"max_index"
+			],
+			[
+				"re",
+				"request"
+			],
+			[
+				"trainin",
+				"training_data"
+			],
+			[
+				"rep",
+				"representation"
+			],
+			[
+				"guidin",
+				"guiding_func"
+			],
+			[
+				"guidi",
+				"guiding_func_id"
+			],
+			[
+				"opt",
+				"opt_params"
+			],
+			[
+				"gui",
+				"guiding_func_id"
+			],
+			[
+				"fun",
+				"function_value"
+			],
+			[
+				"build",
+				"build_guiding_function"
+			],
+			[
+				"metri",
+				"metric_from_name"
+			],
+			[
+				"sing",
+				"single_fs"
+			],
+			[
+				"input",
+				"input_feature_indices"
+			],
+			[
+				"fea",
+				"feature_set_results"
+			],
+			[
+				"tar",
+				"target_matrix"
+			],
+			[
+				"use",
+				"use_kfs_masking"
+			],
+			[
+				"leare",
+				"learner_name"
+			],
+			[
+				"lear",
+				"learner"
+			],
+			[
+				"sample",
+				"sample_size"
+			],
+			[
+				"source",
+				"_sourceable"
+			],
+			[
+				"change",
+				"changeable"
+			],
+			[
+				"uint8",
+				"uint8_t"
+			],
+			[
+				"random",
+				"random_move"
+			],
+			[
+				"move",
+				"move_to_given"
+			],
+			[
+				"uint",
+				"uint32_t"
+			],
+			[
+				"conne",
+				"connected_gates"
+			],
+			[
+				"connec",
+				"connected"
+			],
+			[
+				"buil",
+				"build_from_params"
+			],
+			[
+				"chain",
+				"chained_from_operator"
+			],
+			[
+				"eva",
+				"evaluator_type"
+			],
+			[
+				"state",
+				"state_params"
+			],
+			[
+				"stat",
+				"state_params"
+			],
+			[
+				"sampl",
+				"sample_type"
+			],
+			[
+				"defau",
+				"default_key"
+			],
+			[
+				"exa",
+				"example_factory"
+			],
+			[
+				"T",
+				"TEST_LOCATION"
+			],
+			[
+				"yi",
+				"yield_fixture"
+			],
+			[
+				"bit",
+				"bintools"
+			],
+			[
+				"chunk",
+				"chunk_instance"
+			],
+			[
+				"ch",
+				"chunk_instance"
+			],
+			[
+				"packed",
+				"packed_mat"
+			],
+			[
+				"example",
+				"example_factory"
+			],
+			[
+				"exampl",
+				"example_factory"
+			],
+			[
+				"index",
+				"index"
+			],
+			[
+				"ext",
+				"exclude_iter"
+			],
+			[
+				"next",
+				"next_exclude"
+			],
+			[
+				"exclu",
+				"exclude_iter"
+			],
+			[
+				"Opera",
+				"OperatorListIterator"
+			],
+			[
+				"ind",
+				"index"
+			],
+			[
+				"ins",
+				"index_list"
+			],
+			[
+				"dat",
+				"data_schema"
+			],
+			[
+				"Bool",
+				"BoolNetwork"
+			],
+			[
+				"error",
+				"error"
+			],
+			[
+				"err",
+				"error_matrix"
+			],
+			[
+				"acti",
+				"activation"
+			],
+			[
+				"erro",
+				"error_scratch"
+			],
+			[
+				"ac",
+				"activation"
+			],
+			[
+				"confi",
+				"config_indices"
+			],
+			[
+				"confg",
+				"config_indices"
+			],
+			[
+				"nu",
+				"numbits"
+			],
+			[
+				"num_b",
+				"num_bits_per_operand"
+			],
+			[
+				"config_sch",
+				"config_schema"
+			],
+			[
+				"Bo",
+				"BoolMapping"
+			],
+			[
+				"traini",
+				"training_tgts"
+			],
+			[
+				"datas",
+				"dataset"
+			],
+			[
+				"if",
+				"ifmain	if __name__ == '__main__'"
+			],
+			[
+				"noti",
+				"notify"
+			],
+			[
+				"sam",
+				"sample_size"
+			],
+			[
+				"out",
+				"out_stream"
+			],
+			[
+				"all",
+				"all_metric_names"
+			],
+			[
+				"Boo",
+				"BoolNet"
+			],
+			[
+				"push",
+				"push_note"
+			],
+			[
+				"resul",
+				"result_dir"
+			],
+			[
+				"prof",
+				"profile_BooleanNetwork"
+			],
+			[
+				"pro",
+				"profile_packing"
+			],
+			[
+				"ra",
+				"random_network"
+			],
+			[
+				"PA",
+				"PACKED_SIZE"
+			],
+			[
+				"kFS",
+				"kFS_matrix"
+			],
+			[
+				"upna",
+				"unpack_bool_matrix"
+			],
+			[
+				"net",
+				"network"
+			],
+			[
+				"evalu",
+				"evaluator"
+			],
+			[
+				"pop",
+				"popcount_vector"
+			],
+			[
+				"bits",
+				"bits_to_remain"
+			],
+			[
+				"pack",
+				"packed_type_t"
+			],
+			[
+				"ze",
+				"zero_mask"
+			],
+			[
+				"matri",
+				"matrix"
+			],
+			[
+				"PACK",
+				"PACKED_SIZE"
+			],
+			[
+				"unp",
+				"unpacked_mat"
+			],
+			[
+				"casc",
+				"cascade"
+			],
+			[
+				"matrix",
+				"matrix_mean"
+			],
+			[
+				"end",
+				"end_mask"
+			],
+			[
+				"mask",
+				"end_mask"
+			],
+			[
+				"prev",
+				"prev_err_col"
+			],
+			[
+				"pre",
+				"prev_err_pos"
+			],
+			[
+				"er",
+				"err_pos"
+			],
+			[
+				"for",
+				"force_reevaluation"
+			],
+			[
+				"uin",
+				"uint8_t"
+			],
+			[
+				"ex",
+				"expected"
+			],
+			[
+				"metr",
+				"metric_value"
+			],
+			[
+				"metric",
+				"metric_value"
+			],
+			[
+				"Bi",
+				"BitErrorCython"
+			],
+			[
+				"array",
+				"array_equal"
+			],
+			[
+				"rand",
+				"randint"
+			],
+			[
+				"best",
+				"best_error"
+			],
+			[
+				"tabu",
+				"tabu_period"
+			],
+			[
+				"iter",
+				"iteration_settings"
+			],
+			[
+				"LA",
+				"LAHC_schema"
+			],
+			[
+				"SA",
+				"SA_schema"
+			],
+			[
+				"config",
+				"config_no"
+			],
+			[
+				"chek",
+				"check_mask"
+			],
+			[
+				"interse",
+				"intersect1d"
+			],
+			[
+				"feature",
+				"feature_sets"
+			],
+			[
+				"new",
+				"new_error"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "plot_data.R",
+			"settings":
+			{
+				"buffer_size": 16425,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "import numpy as np\nimport pandas as pd\nimport easygui\nimport argparse\n\n\ndef get_results(filename=None):\n    if not filename:\n        filename = easygui.fileopenbox()\n    return pd.read_json(filename)\n\n\ndef get_No(data):\n    if data.No.min() == data.No.max():\n        return data.No.min()\n    else:\n        raise ValueError('Non-uniform No')\n\n\ndef aggregate_generalised(results):\n    No = get_No(results)\n    for t in range(No):\n        target_generalised = results['test_err_tgt_{}'.format(t)] == 0\n        results['gen_tgt_{}'.format(t)] = target_generalised\n\n    results['gen'] = results.gen_tgt_0\n    for t in range(1, No):\n        results.gen = results.gen & results['gen_tgt_{}'.format(t)]\n\n    grouped = results.groupby(['optimiser_guiding_function', 'Ne'])\n    cols_to_keep = {'gen_tgt_{}'.format(t): np.mean for t in range(No)}\n    cols_to_keep.update({'test_err_tgt_{}'.format(t): np.mean\n                         for t in range(No)})\n    cols_to_keep['gen'] = np.mean\n    cols_to_keep['test_error_simple'] = np.mean\n    return grouped.aggregate(cols_to_keep).reset_index()\n\n\ndef main():\n    # scores: generalisation probability and mean generalisation error\n    columns = ['learner', 'optimiser_guiding_function', 'Ne']\n    parser = argparse.ArgumentParser(\n        description='Calculate generalisation measures for each combination.')\n    parser.add_argument('infile', type=str)\n    parser.add_argument('outfile', type=str)\n    parser.add_argument('--key-columns', type=list)\n\n    args = parser.parse_args()\n    completed_df = join_completed([pd.read_json(f) for f in args.files])\n\n    completed_df.to_json(args.outfile)\n\n    results_list = [get_results('/home/shannon/HMRI/experiments/results/Varying Ne/add4_Ns1k_15-08-31_SET{}/results.json'.format(i)) for i in range(1, 4)]\n    # completed = join_completed(results_list)\n    # print(completed.Ne.value_counts())\n    # print(completed.optimiser_guiding_function.value_counts())\n    gen_data = aggregate_generalised(join_completed(results_list))\n\n\nif __name__ == '__main__':\n    main()\n\n",
+			"file": "filter_results.py",
+			"file_size": 1973,
+			"file_write_time": 130874580245455676,
+			"settings":
+			{
+				"buffer_size": 2050,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "def differences(dataframe, guiding_funcs):\n    basic_e1 = dataframe[dataframe.optimiser_guiding_function == 'e1']\n    basic_others = {gf: dataframe[dataframe.optimiser_guiding_function == gf]\n                    for gf in guiding_funcs}\n\n    basic_e1.sort(columns=['Ne', 'training_set_number'], inplace=True)\n    basic_e1.reset_index(inplace=True, drop=True)\n    for df in basic_others:\n        df.sort(columns=['Ne', 'training_set_number'], inplace=True)\n        df.reset_index(inplace=True, drop=True)\n\n    for gf, df in basic_others.items():\n        print(gf, (basic_e1.test_error_simple - df.test_error_simple).mean())",
+			"settings":
+			{
+				"buffer_size": 622,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "join_completed",
+			"settings":
+			{
+				"buffer_size": 1431,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/shannon/.config/sublime-text-3/Packages/User/Anaconda.sublime-settings",
+			"settings":
+			{
+				"buffer_size": 33,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/shannon/HMRI/experiments/results/varying_Ne_sub4-basic_15-09-23_0/results.json",
+			"settings":
+			{
+				"buffer_size": 12464619,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "syn",
+		"selected_items":
+		[
+			[
+				"syn",
+				"Set Syntax: Python3"
+			],
+			[
+				"bash",
+				"Set Syntax: Shell Script (Bash)"
+			],
+			[
+				"diff",
+				"FileDiffs: Menu"
+			],
+			[
+				"show",
+				"SublimeLinter: Show All Errors"
+			],
+			[
+				"synta",
+				"Set Syntax: Cython"
+			],
+			[
+				"syntax",
+				"Set Syntax: Cython"
+			],
+			[
+				"syn p",
+				"Set Syntax: Python"
+			],
+			[
+				"syn bas",
+				"Set Syntax: Shell Script (Bash)"
+			],
+			[
+				"pretty",
+				"Pretty JSON: Format (Pretty Print) JSON"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"package",
+				"Package Control: Remove Package"
+			],
+			[
+				"cython",
+				"Set Syntax: Cython"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"sho",
+				"SublimeLinter: Show All Errors"
+			],
+			[
+				"cyth",
+				"Set Syntax: Cython"
+			],
+			[
+				"packa",
+				"Package Control: List Packages"
+			],
+			[
+				"next",
+				"SublimeLinter: Next Error"
+			],
+			[
+				"gutter",
+				"SublimeLinter: Choose Gutter Theme"
+			]
+		],
+		"width": 467.0
+	},
+	"console":
+	{
+		"height": 146.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2deb499853c4371624f5a07e27c334aa' + 'bf8c4e67d14fb0525ba4f89698a6d7e1'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/shannon/HMRI/code/data_tools/gen_samples.py",
+		"/home/shannon/HMRI/experiments/test_darwins.sh",
+		"/home/shannon/HMRI/experiments/results/varying_Ne_add4-kfs-short_15-09-15_0/results.json",
+		"/home/shannon/HMRI/experiments/results/varying_Ne_add4-kfs-short_15-09-15_1/results.json",
+		"/home/shannon/HMRI/experiments/results/varying_Ne_add4_15-09-13_1/failed.json",
+		"/home/shannon/HMRI/experiments/configs/varying_Ne/add4.yaml",
+		"/home/shannon/HMRI/code/boolnet/boolnet/test/test_learners.py",
+		"/home/shannon/HMRI/code/boolnet/boolnet/learning/learners-backup.py",
+		"/home/shannon/HMRI/code/boolnet/boolnet/learning/learn_boolnet.py",
+		"/home/shannon/HMRI/code/boolnet/boolnet/learning/optimisers.py",
+		"/home/shannon/HMRI/code/boolnet/boolnet/learning/learners.py",
+		"/home/shannon/HMRI/code/boolnet/runexp.py",
+		"/home/shannon/HMRI/code/boolnet/boolnet/exptools/config_tools.py",
+		"/home/shannon/HMRI/code/boolnet/boolnet/exptools/config_schemata.py",
+		"/home/shannon/HMRI/experiments/results/Grouped Varying Ne/Ns1k/basic/add4_Ns1k_15-08-31_SET1/add4-basic.yaml",
+		"/home/shannon/HMRI/experiments/results/varying_Ne_add4-kfs_15-09-08_0/results.json",
+		"/home/shannon/HMRI/experiments/results/varying_Ne_add4-kfs_15-09-08_0/results-joined.json",
+		"/home/shannon/HMRI/experiments/results/varying_Ne_add4-kfs_15-09-08_0/grepout.txt",
+		"/home/shannon/HMRI/experiments/results/DEBUG_varying_Ne_add4-kfs_15-09-08_2/results.json",
+		"/home/shannon/debugging/strat_learn_08-09-15/inter_0_102_3_3.sol",
+		"/home/shannon/HMRI/experiments/results/DEBUG_varying_Ne_add4-kfs_15-09-08_0/results.json",
+		"/home/shannon/HMRI/experiments/results/DEBUG_varying_Ne_add4-kfs_15-09-08_1/results.json",
+		"/home/shannon/lastresort.txt",
+		"/home/shannon/HMRI/experiments/results/varying_Ne_add4_15-09-07_6/temp/inter_0_10_0_0.log",
+		"/home/shannon/HMRI/experiments/results/varying_Ne_add4_15-09-07_6/temp/inter_0_10_0_0.abk",
+		"/home/shannon/HMRI/experiments/results/varying_Ne_add4_15-09-07_6/temp/inter_0_10_0_0.err",
+		"/home/shannon/HMRI/experiments/configs/test/auto-kfs-add4.yaml",
+		"/home/shannon/HMRI/code/boolnet/boolnet/learning/kfs.py",
+		"/home/shannon/HMRI/code/boolnet/boolnet/network/boolnetwork.pyx",
+		"/home/shannon/HMRI/experiments/configs/varying_Ne/add4-kfs.yaml",
+		"/home/shannon/HMRI/code/boolnet/boolnet/network/algorithms.pyx",
+		"/home/shannon/top.txt",
+		"/home/shannon/results",
+		"/home/shannon/diff",
+		"/home/shannon/testpickle.p",
+		"/home/shannon/HMRI/experiments/results/TEST_kfs_add4_15-09-07_9/results.json",
+		"/home/shannon/HMRI/experiments/results/TEST_kfs_add4_15-09-07_6/results.json",
+		"/home/shannon/HMRI/experiments/results/TEST_kfs_add4_15-09-07_1/results.json",
+		"/home/shannon/Downloads/PyQt-x11-gpl-4.11.4/README",
+		"/home/shannon/Downloads/sip-4.16.9/README",
+		"/home/shannon/HMRI/experiments/configs/varying_Ne/add4-basic-2.yaml",
+		"/home/shannon/HMRI/experiments/configs/varying_Ne/add4-basic-4.yaml",
+		"/home/shannon/HMRI/experiments/configs/varying_Ne/add4-basic.yaml",
+		"/home/shannon/HMRI/experiments/configs/varying_Ne/add4-basic-3.yaml",
+		"/home/shannon/HMRI/experiments/results/varying_Ne_add4_15-08-28_0/results.json",
+		"/home/shannon/HMRI/experiments/results/varying_Ne_add4_15-08-28_12/results.json",
+		"/home/shannon/HMRI/experiments/results/varying_Ne_add4_15-08-28_13/results.json",
+		"/home/shannon/HMRI/experiments/results/scoop_test_15-08-28_0/results.json",
+		"/home/shannon/HMRI/experiments/results/scoop_test_15-08-28_5/results.json",
+		"/home/shannon/CIBMTools/FABCPP/Release/src/subdir.mk",
+		"/home/shannon/HMRI/experiments/results/varying_Ne_add4_15-08-28_4/temp/inter_79_9_0.err",
+		"/home/shannon/HMRI/experiments/results/varying_Ne_add4_15-08-28_4/temp/inter_79_9_0.log",
+		"/home/shannon/HMRI/experiments/results/varying_Ne_add4_15-08-28_4/temp/inter_79_9_0.abk",
+		"/home/shannon/HMRI/experiments/results/varying_Ne_add4_15-08-28_4/results.json",
+		"/home/shannon/Downloads/scoop-0.7.1.1/build/lib/scoop/_control.py",
+		"/home/shannon/.cache/.fr-w3S0y9/scoop/_control.py",
+		"/home/shannon/Downloads/future_exeception_traceback_propogation.patch",
+		"/home/shannon/.cache/.fr-ekqb1r/scoop-0.7/scoop/_control.py",
+		"/home/shannon/.cache/.fr-9oB2ly/scoop-0.7.1.1/scoop/_control.py",
+		"/home/shannon/.cache/.fr-MSTadu/scoop-0.7.1/scoop/_control.py",
+		"/home/shannon/HMRI/experiments/results/scoop_test_15-08-27_0/results.json",
+		"/home/shannon/HMRI/code/boolnet/boolnet/bintools/operator_iterator.pyx",
+		"/home/shannon/HMRI/code/boolnet/boolnet/bintools/operator_iterator.pxd",
+		"/home/shannon/HMRI/code/boolnet/boolnet/bintools/example_generator.pyx",
+		"/home/shannon/HMRI/code/boolnet/boolnet/bintools/example_generator.pxd",
+		"/home/shannon/HMRI/experiments/results/kfs_mul2_15-08-25_6/results.json",
+		"/home/shannon/HMRI/experiments/results/kfs_mul2_15-08-25_0/results.json",
+		"/home/shannon/HMRI/experiments/results/kfs_mul2_15-08-25_2/temp/inter_0_6_0.log",
+		"/home/shannon/HMRI/experiments/results/kfs_mul2_15-08-25_2/temp/inter_0_6_0.err",
+		"/home/shannon/HMRI/experiments/results/kfs_mul2_15-08-25_2/temp/inter_0_6_0.abk",
+		"/home/shannon/HMRI/experiments/configs/kfs_only/4bit-add-kfs.yaml",
+		"/home/shannon/HMRI/experiments/configs/kfs_only/6bit-mul-kfs.yaml",
+		"/home/shannon/HMRI/experiments/.gitignore",
+		"/home/shannon/HMRI/experiments/results/kfs_6bit_mul_15-08-12_3/results.json",
+		"/home/shannon/HMRI/code/boolnet/boolnet/conftest.py",
+		"/home/shannon/HMRI/code/boolnet/boolnet/learning/networkstate.c",
+		"/home/shannon/Downloads/science27575e11.ris",
+		"/home/shannon/Downloads/IOPEXPORT_RIS.ris",
+		"/home/shannon/Downloads/science31808918.ris",
+		"/home/shannon/Downloads/S0020737305801300.ris",
+		"/home/shannon/Downloads/10.1007%2Fs10541-005-0013-7.ris",
+		"/home/shannon/Downloads/Zotero_linux-x86_64/README.md",
+		"/home/shannon/Downloads/10.1007%2FBF00175354.ris",
+		"/home/shannon/Downloads/037596019090166L.ris",
+		"/home/shannon/.cache/.fr-awU19Z/jabref-2.10/README.md",
+		"/home/shannon/HMRI/code/boolnet/boolnet/bintools/functions.pxd",
+		"/home/shannon/HMRI/code/boolnet/boolnet/bintools/functions.pyx",
+		"/home/shannon/HMRI/code/boolnet/boolnet/learning/networkstate.pyx",
+		"/home/shannon/HMRI/code/boolnet/boolnet/profiling/profile_BooleanNetwork.py",
+		"/home/shannon/HMRI/code/boolnet/boolnet/test/comparison code/BitErrorPy.py",
+		"/home/shannon/HMRI/code/boolnet/boolnet/test/test_networkstate.py",
+		"/home/shannon/HMRI/code/boolnet/boolnet/bintools/biterror_chained.pyx",
+		"/home/shannon/HMRI/code/boolnet/boolnet/bintools/biterror_chained.pxd",
+		"/home/shannon/HMRI/code/boolnet/boolnet/bintools/biterror.pyx",
+		"/home/shannon/HMRI/code/boolnet/boolnet/bintools/biterror.pxd",
+		"/home/shannon/HMRI/experiments/configs/kfs_only/4bit-mul-kfs.yaml",
+		"/home/shannon/HMRI/experiments/configs/kfs_only/8bit-add-kfs.yaml",
+		"/home/shannon/HMRI/experiments/configs/kfs_only/8bit-add-kfs-e3.yaml",
+		"/home/shannon/HMRI/experiments/configs/kfs_only/8bit-add-kfs-e6.yaml",
+		"/home/shannon/HMRI/experiments/configs/kfs_only/8bit-sub-kfs.yaml",
+		"/home/shannon/HMRI/experiments/configs/kfs_only/16bit-add-kfs.yaml",
+		"/home/shannon/HMRI/experiments/configs/kfs_only/16bit-mul-kfs.yaml",
+		"/home/shannon/HMRI/experiments/configs/kfs_only/16bit-sub-kfs.yaml",
+		"/home/shannon/HMRI/experiments/results/kfs_sub8_15-08-17_0/8bit-sub-kfs.yaml",
+		"/home/shannon/HMRI/experiments/results/kfs_sub16_15-08-09_0/16bit-sub-kfs.yaml",
+		"/home/shannon/HMRI/experiments/results/kfs_add16_10x512_15-08-07/16bit-add-kfs.yaml",
+		"/home/shannon/HMRI/experiments/results/kfs_add16_100x512_15-08-07/16bit-add-kfs.yaml",
+		"/home/shannon/HMRI/experiments/results/kfs_8bit_e3_15-08-07_2/8bit-add-kfs-e3.yaml",
+		"/home/shannon/HMRI/experiments/results/kfs_8bit_15-08-07_0/8bit-add-kfs.yaml",
+		"/home/shannon/HMRI/experiments/results/kfs_6bit_mul_15-08-12_3/6bit-mul-kfs.yaml",
+		"/home/shannon/HMRI/experiments/results/kfs_4bit_mul_15-08-11_0/4bit-mul-kfs.yaml",
+		"/home/shannon/HMRI/code/boolnet/boolnet/test/test_biterror_chained.py",
+		"/home/shannon/HMRI/code/boolnet/boolnet/test/test_biterror.py",
+		"/home/shannon/HMRI/experiments/results/Comparison of gates/NANDvNORvRAND_4bit_100x16_date_15-04-24/results.json",
+		"/home/shannon/HMRI/experiments/results/kfs_4bit_mul_15-08-11_0/results.json",
+		"/home/shannon/HMRI/experiments/plot_data.R",
+		"/home/shannon/HMRI/experiments/results/Comparison of learners/4bit_add_learner_metric_longer-training_100x32_15-05-26/time.eps",
+		"/home/shannon/HMRI/experiments/results/kfs_sub8_15-08-17_0/results.json",
+		"/home/shannon/HMRI/experiments/results/kfs_add16_10x512_15-08-07/results.json",
+		"/home/shannon/HMRI/experiments/results/kfs_add16_10x256_15-08-05/results.json",
+		"/home/shannon/HMRI/experiments/results/kfs_add16_100x512_15-08-07/results.json",
+		"/home/shannon/HMRI/experiments/results/kfs_8bit_e3_15-08-07_2/results.json",
+		"/home/shannon/HMRI/experiments/results/kfs_8bit_e3_15-08-07_1/results.json",
+		"/home/shannon/HMRI/experiments/results/kfs_8bit_e3_15-08-07_0/results.json",
+		"/home/shannon/HMRI/experiments/results/kfs_8bit_15-08-07_0/results.json",
+		"/home/shannon/HMRI/experiments/results/kfs_8bit_15-08-06_1/results.json",
+		"/home/shannon/HMRI/experiments/results/kfs_8bit_15-08-06_0/results.json",
+		"/home/shannon/HMRI/experiments/results/kfs_6bit_mul_15-08-12_2/results.json"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 90.0,
+		"where_history":
+		[
+			"/home/shannon/HMRI/code/boolnet,*.py,*.pyx",
+			"/home/shannon/HMRI/code/boolnet",
+			"/home/shannon/HMRI/",
+			"/home/shannon/HMRI/experiments",
+			"/home/shannon/experiments",
+			"/home/shannon/HMRI/code/boolnet/boolnet/test/networks",
+			"/home/shannon/HMRI/code/boolnet/boolnet/test/",
+			"/home/shannon/HMRI/code/boolnet",
+			"",
+			"/home/shannon/HMRI/code",
+			"/home/shannon/HMRI/",
+			"/home/shannon/HMRI-transp/Code/,/home/shannon/HMRI-master/Code/",
+			"/home/shannon/HMRI-transp/,/home/shannon/HMRI-master/",
+			"/home/shannon/HMRI-transp,/home/shannon/HMRI-master",
+			"/home/shannon/",
+			"/home/shannon/HMRI-transp/Code",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"basic",
+			"\\'",
+			"{\n",
+			" + ERR_TGT_INFIX",
+			"sep=')",
+			"sep=",
+			"sep='",
+			"\"",
+			"\"training\"",
+			"_error_target_\"",
+			"error_target_",
+			"Ne",
+			"sub",
+			"training_error_simple\": 0.0,",
+			"name: stratified, kfs: yes, one_layer_kfs: yes, optimiser: {guiding_function: per_output",
+			"{name: basic, optimiser: {guiding_function: ",
+			"e1",
+			" {name: basic, optimiser: {guiding_function: ",
+			"{name: basic, optimiser: {guiding_function:",
+			"Ne\": ",
+			"optimiser_restarts\": [0, 0, 0, 20]",
+			"train_err",
+			"end_condition",
+			"'end_condition'",
+			"sys.stderr",
+			"Optimiser parameters missing",
+			"self._setup(parameters, state)",
+			"600",
+			")",
+			"svg",
+			".png",
+			"plot_",
+			"/plot",
+			"plot",
+			"'HMRI/",
+			"=",
+			"_t",
+			"t",
+			"gg.ggplot",
+			"gen_data",
+			"self.end_condition",
+			", stopping_criterion",
+			"self.stopping_criterion = stopping_criterion",
+			"end_condition",
+			"fs_strata_0_tgt_2",
+			"fs_strata_0",
+			"useable_gate",
+			"inter_file_base",
+			"train_err",
+			"target",
+			"Ng - No + target",
+			"print",
+			"self.fabcpp_options",
+			"+Ni",
+			"upper_source_gate",
+			"input_gate",
+			"lower_gate",
+			"upper_gate",
+			"=",
+			"result.",
+			"result",
+			"num_targets",
+			"numpy",
+			"indices",
+			"  - {learner: {name: basic, optimiser: {guiding_function: e1}}, sampling: {Ne: ",
+			"gen_data",
+			"e1",
+			"Ne",
+			",",
+			" ",
+			"incomplete",
+			"results",
+			"2",
+			"}}",
+			"e",
+			",",
+			"36",
+			"learner",
+			",",
+			"'indices'",
+			"e",
+			"e1",
+			"e",
+			"training_error_simple\":",
+			"boundaries",
+			"filename",
+			"optimiser",
+			".",
+			"==",
+			"print(",
+			"num_elements",
+			"Inclu",
+			"(",
+			"cdef class ",
+			"cdef",
+			"OperatorExampleFactory",
+			"ex",
+			"OperatorExampleFactory",
+			"example_factory",
+			"OperatorExampleFactory",
+			"op",
+			"Ex",
+			"optimiser_guiding_function",
+			"state.representation",
+			"evaluator",
+			"copy(",
+			".npy",
+			"   ",
+			"  ",
+			"    ",
+			"   ",
+			"     ",
+			"    ",
+			"_",
+			"Metric",
+			"deepcopy",
+			"copy",
+			"function_from_name",
+			"In(guiding_functions)",
+			"feature_mask",
+			"mask",
+			"feature_masking",
+			"func",
+			"\n            ",
+			"]:\n",
+			"super().__init__(Ne, No, cols, msb, mask)",
+			", np.uint8_t[:] mask",
+			"self.set_mask(mask)"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			" ",
+			"Function",
+			"guiding_function",
+			"guiding_function:",
+			"function",
+			"function_value",
+			"function_from_name",
+			"function",
+			"function_name",
+			"all_guiding_func_names",
+			"all_guiding_funcs",
+			"bintools.functions",
+			"]],\\n",
+			"		[[",
+			"E$1$2",
+			"    ",
+			"], [",
+			"]],",
+			"		[[",
+			"], [",
+			"]],",
+			"		[[",
+			"node_funcs:",
+			"\"e2",
+			"\"e3",
+			"\"e1\"",
+			"final_network",
+			"total_iterations",
+			"set_number",
+			"init_temp",
+			"temp_rate",
+			"iteration_for_best",
+			"_per_",
+			"optimiser_",
+			"test_",
+			"accu",
+			"training_",
+			"_simple",
+			"_guiding",
+			"training_error",
+			"test_error",
+			"_target_0",
+			"_target_1",
+			"_target_2",
+			"_target_3",
+			"max_depth_target_3",
+			"max_depth_target_2",
+			"max_depth_target_1",
+			"max_depth_target_0",
+			"\"optimiser "
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "plot_data.R",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 16425,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3221,
+								3221
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/R/R.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1314.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "filter_results.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2050,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1487,
+								1487
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 114.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 622,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								622,
+								622
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "join_completed",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1431,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								106,
+								106
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python 3/Python3.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/home/shannon/.config/sublime-text-3/Packages/User/Anaconda.sublime-settings",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 33,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								32,
+								32
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/home/shannon/HMRI/experiments/results/varying_Ne_sub4-basic_15-09-23_0/results.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 12464619,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 12898.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "data_tools.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"add4-s",
+				"configs/varying_Ne/add4-short.yaml"
+			],
+			[
+				"add4-kf",
+				"configs/varying_Ne/add4-kfs-short.yaml"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 392.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
