@@ -28,9 +28,9 @@ def join_completed(list_of_results, key_columns=None):
 def main():
     parser = argparse.ArgumentParser(
         description='Join results with zero training error.')
-    parser.add_argument('files', type=str, nargs='+',
+    parser.add_argument('-i', type=str, nargs='+', required=True,
                         help='list of input files')
-    parser.add_argument('--outfile', type=str,
+    parser.add_argument('-o', type=str, required=True,
                         help='file to store result')
 
     args = parser.parse_args()
