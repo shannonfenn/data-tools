@@ -33,7 +33,12 @@ def aggregate_generalised(results, key_columns):
                          for t in range(No)})
     cols_to_keep['gen'] = np.mean
     cols_to_keep['test_error_simple'] = [np.mean, np.std]
-    return grouped.aggregate(cols_to_keep).reset_index()
+
+    df = grouped.aggregate(cols_to_keep).reset_index()
+
+    df.columns = [' '.join(col).strip().replace(' ', '_') for col in df.columns.values]
+
+    return df
 
 
 def main():
@@ -52,7 +57,7 @@ def main():
 
     df = aggregate_generalised(df, args.key_columns)
 
-    df.to_json(args.outfile)
+    df.to_json(args.outfile, orient='records')
 
 
 if __name__ == '__main__':
