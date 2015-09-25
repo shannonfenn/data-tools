@@ -21,30 +21,40 @@ get_results <- function(file_name=NULL) {
     if("final_network" %in% colnames(results)) {
         results <- subset(results, select = -c(final_network))
     }
-    ind <- sapply(results, is.character)
-    results[ind] <- lapply(results[ind], factor)
+    str_cols <- sapply(results, is.character)
+    results[str_cols] <- lapply(results[str_cols], factor)
     # reorganise function factor
     # results$guiding_function <- factor(
     #     results$optimiser_guiding_function,
     #     levels = levels(results$optimiser_guiding_function)[
             # c(1, 2, 4, 6, 8, 10, 12, 3, 5, 7, 9, 11, 13)])
     # create factor from numeric
-    results$num.Ne <- factor(results$Ne)
+    results$num_Ne <- factor(results$Ne)
 
-    if(class(results$total_iterations) == "list") {
-        # something like the below
-        for (i in 1:nrow(results)) {
-            results$total_it[i] <- do.call(sum, results$total_iterations[i])
+    if("total_iterations" %in% colnames(results)) {
+        results <- accumulate_total_iterations(results)
+    }
+
+    if(paste("test", ERR_TGT_INFIX, 0, sep="") %in% colnames(results)) {
+        results <- count_generalised(results)
+    }
+
+    return(results[, order(names(results))])
+}
+
+
+accumulate_total_iterations <- function(df) {
+    if(class(df$total_iterations) == "list") {
+        for (i in 1:nrow(df)) {
+            df$total_it[i] <- do.call(sum, df$total_iterations[i])
         }
     }
     else {
-        results$total_it <- results$total_iterations
+        df$total_it <- df$total_iterations
     }
-
-    results <- count_generalised(results, get_No(results))
-
-    return( results[, order(names(results))] )
+    return(df)
 }
+
 
 count_generalised <- function(df) {
     N <- get_No(df)
@@ -311,12 +321,12 @@ plot3_errs_gf <- function(results, use.notch=TRUE, show.legend=TRUE) {
 
 plot_errs_by_sample <- function(results) {
     ptest <- ggplot(results,
-        aes(x=num.Ne, y=test_error_simple, color=guiding_function)) +
+        aes(x=num_Ne, y=test_error_simple, color=guiding_function)) +
         geom_boxplot() +
         labs(title = "Test error", x = "Ne", y = "error")
 
     ptrain <- ggplot(results,
-        aes(x=num.Ne, y=training_error_simple, color=guiding_function)) +
+        aes(x=num_Ne, y=training_error_simple, color=guiding_function)) +
         geom_boxplot() +
         labs(title = "Training error", x = "Ne", y = "error") +
         theme(axis.title.y = element_blank())
