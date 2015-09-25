@@ -28,6 +28,13 @@ def aggregate_generalised(results, key_columns):
         results.gen = results.gen & results['gen_tgt_{}'.format(t)]
 
     grouped = results.groupby(key_columns)
+
+    unique_counts = grouped.count()['gen'].nunique()
+    if unique_counts:
+        print('Warning: non-uniform result numbers, {} unique counts!'.
+              format(unique_counts))
+        
+
     cols_to_keep = {'gen_tgt_{}'.format(t): np.mean for t in range(No)}
     cols_to_keep.update({'test_err_tgt_{}'.format(t): np.mean
                          for t in range(No)})
