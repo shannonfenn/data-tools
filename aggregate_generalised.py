@@ -32,7 +32,7 @@ def aggregate_generalised(results, key_columns):
     cols_to_keep.update({'test_err_tgt_{}'.format(t): np.mean
                          for t in range(No)})
     cols_to_keep['gen'] = np.mean
-    cols_to_keep['test_error_simple'] = np.mean
+    cols_to_keep['test_error_simple'] = [np.mean, np.std]
     return grouped.aggregate(cols_to_keep).reset_index()
 
 
