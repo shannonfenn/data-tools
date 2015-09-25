@@ -38,6 +38,8 @@ def aggregate_generalised(results, key_columns):
 
     df.columns = [' '.join(col).strip().replace(' ', '_') for col in df.columns.values]
 
+    df['No'] = No
+
     return df
 
 
