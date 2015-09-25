@@ -46,7 +46,8 @@ get_results <- function(file_name=NULL) {
     return( results[, order(names(results))] )
 }
 
-count_generalised <- function(df, N) {
+count_generalised <- function(df) {
+    N <- get_No(df)
     target_names <- paste("test", ERR_TGT_INFIX, 0:(N - 1), sep="")
     count_names <- paste("gen_tgt_", 0:(N - 1), sep="")
     df[count_names] <- FALSE
