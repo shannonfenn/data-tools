@@ -9,14 +9,18 @@ options(stringsAsFactors = TRUE)
 
 ERR_TGT_INFIX <- "_err_tgt_"
 
-get.results <- function() {
+get_results <- function(file_name=NULL) {
     options(stringsAsFactors = TRUE)
-    jsonfile <- tk_choose.files(
-        default = "HMRI/", caption = "Select experiment file", multi = FALSE,
-        filters=matrix(c("json", ".json"), 1, 2, byrow = TRUE))
-    print(jsonfile)
-    results <- fromJSON(jsonfile)
-    results <- subset(results, select = -c("final_network"))
+    if(is.null(file_name)) {
+        file_name <- tk_choose.files(
+            default = "HMRI/experiments/results", caption = "Select experiment file", multi = FALSE,
+            filters=matrix(c("json", ".json"), 1, 2, byrow = TRUE))
+        print(file_name)
+    }
+    results <- fromJSON(file_name)
+    if("final_network" %in% colnames(results)) {
+        results <- subset(results, select = -c(final_network))
+    }
     ind <- sapply(results, is.character)
     results[ind] <- lapply(results[ind], factor)
     # reorganise function factor
