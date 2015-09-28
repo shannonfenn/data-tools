@@ -30,8 +30,9 @@ def aggregate_generalised(results, key_columns):
     grouped = results.groupby(key_columns)
 
     unique_counts = grouped.count()['gen'].nunique()
-    if unique_counts:
-        print('Warning: non-uniform result numbers, {} unique counts!'.
+    if unique_counts > 1:
+        print('Warning: non-uniform result numbers, {} unique counts! This '
+              'likely means more not all training sets converged.'.
               format(unique_counts))
         
 
