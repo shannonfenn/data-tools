@@ -17,5 +17,9 @@
 	"settings":
 	{
 		"python_interpreter": "/home/shannon/hyrule/bin/python"
-	}
+	},
+	"SublimeLinter":
+    {
+        "@python": 3
+    }
 }
