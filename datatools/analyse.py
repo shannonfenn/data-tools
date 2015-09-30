@@ -4,8 +4,6 @@ import pandas as pd
 from itertools import cycle
 import sys
 import os
-sys.path.append('/home/shannon/HMRI/code/boolnet/')
-from boolnet.network.boolnetwork import BoolNetwork
 
 
 INP_COLOUR = '#ff0000'
@@ -15,14 +13,14 @@ PALETTE = palettable.colorbrewer.qualitative.Set3_12.hex_colors
 
 
 def get_network_from_result(result):
-    connection_matrix = result['final_network']
+    gates = result['final_network']
     Ni, No = result['Ni'], result['No']
-    return BoolNetwork(connection_matrix, Ni, No)
+    return (gates, Ni, No)
 
 
 def build_digraph_from_network(net):
-    Ni, No, Ng = net.Ni, net.No, net.Ng
-    gates = net.gates
+    gates, Ni, No = net
+    Ng = len(gates)
     G = nx.DiGraph()
     G.add_nodes_from(range(Ni))
     edges = []

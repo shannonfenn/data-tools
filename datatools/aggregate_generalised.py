@@ -34,7 +34,6 @@ def aggregate_generalised(results, key_columns):
         print('Warning: non-uniform result numbers, {} unique counts! This '
               'likely means more not all training sets converged.'.
               format(unique_counts))
-        
 
     cols_to_keep = {'gen_tgt_{}'.format(t): np.mean for t in range(No)}
     cols_to_keep.update({'test_err_tgt_{}'.format(t): np.mean
@@ -44,7 +43,8 @@ def aggregate_generalised(results, key_columns):
 
     df = grouped.aggregate(cols_to_keep).reset_index()
 
-    df.columns = [' '.join(col).strip().replace(' ', '_') for col in df.columns.values]
+    df.columns = [' '.join(col).strip().replace(' ', '_')
+                  for col in df.columns.values]
 
     df['No'] = No
 

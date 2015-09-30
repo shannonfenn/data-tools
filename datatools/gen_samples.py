@@ -11,8 +11,9 @@ def check_samples(samples):
             raise RuntimeError('Error: sample generated with duplicate indices')
         for s2 in range(s+1, Ns):
             if np.array_equal(samples[s], samples[s2]):
-                print(('Warning: two identical samples generated (this is unlikely and '
-                       'so has not been avoided) it is highly suggested to run this tool again.'))
+                print('Warning: two identical samples generated (this is '
+                      'unlikely and so has not been avoided) it is highly '
+                      'suggested to run this tool again.')
 
 
 def generate_and_dump_samples(Ni, num_samples, sample_size, directory):
