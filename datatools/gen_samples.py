@@ -8,7 +8,7 @@ def check_samples(samples):
     Ns, Ne = samples.shape
     for s in range(Ns):
         if len(set(samples[s])) < Ne:
-            raise RuntimeError('Error: sample generated with duplicate indices')
+            raise RuntimeError('Error: sample with duplicate indices')
         for s2 in range(s+1, Ns):
             if np.array_equal(samples[s], samples[s2]):
                 print('Warning: two identical samples generated (this is '
@@ -32,7 +32,8 @@ def generate_and_dump_samples(Ni, num_samples, sample_size, directory):
     check_samples(samples)
 
     # Dump to file
-    fname = os.path.join(directory, '{}_{}_{}.npy'.format(Ni, num_samples, sample_size))
+    fname = '{}_{}_{}.npy'.format(Ni, num_samples, sample_size)
+    fname = os.path.join(directory, fname)
     if os.path.isfile(fname):
         raise ValueError('File exists and will not be overwritten', fname)
     np.save(fname, samples)
@@ -41,9 +42,12 @@ def generate_and_dump_samples(Ni, num_samples, sample_size, directory):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Generate sample indices.')
     parser.add_argument('Ni', type=int, help='number of inputs (total)')
-    parser.add_argument('num_samples', type=int, help='number of different samples')
-    parser.add_argument('sample_size', type=int, help='number of examples in each sample')
-    parser.add_argument('--dir', type=str, default='experiments/datasets/samples',
+    parser.add_argument('num_samples', type=int,
+                        help='number of different samples')
+    parser.add_argument('sample_size', type=int,
+                        help='number of examples in each sample')
+    parser.add_argument('--dir', type=str,
+                        default='experiments/datasets/samples',
                         help='directory to store file')
 
     args = parser.parse_args()
@@ -51,7 +55,8 @@ if __name__ == '__main__':
     if not os.path.isdir(args.dir):
         raise OSError('Directory does not exist: {}'.format(args.dir))
 
-    generate_and_dump_samples(args.Ni, args.num_samples, args.sample_size, args.dir)
+    generate_and_dump_samples(args.Ni, args.num_samples,
+                              args.sample_size, args.dir)
 
 
 # for Ne in range(8, 256):
