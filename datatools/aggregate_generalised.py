@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import easygui
 import argparse
+import os
 
 
 def get_results(filename=None):
@@ -56,18 +57,24 @@ def main():
     default_key_columns = ['learner', 'optimiser_guiding_function', 'Ne']
     parser = argparse.ArgumentParser(
         description='Calculate generalisation measures for each combination.')
-    parser.add_argument('infile', type=str)
-    parser.add_argument('outfile', type=str)
+    parser.add_argument('file', type=str)
+    parser.add_argument('--outfile', '-o', type=str)
     parser.add_argument('--key-columns', type=str, nargs='+',
                         default=default_key_columns)
 
     args = parser.parse_args()
 
-    df = pd.read_json(args.infile)
+    df = pd.read_json(args.file)
 
     df = aggregate_generalised(df, args.key_columns)
 
-    df.to_json(args.outfile, orient='records')
+    if args.outfile:
+        outfile = args.outfile
+    else:
+        base, ext = os.path.splitext(args.file)
+        outfile = base + '_gen' + ext
+
+    df.to_json(outfile, orient='records')
 
 
 if __name__ == '__main__':
