@@ -1,14 +1,7 @@
 import numpy as np
 import pandas as pd
-import easygui
 import argparse
 import os
-
-
-def get_results(filename=None):
-    if not filename:
-        filename = easygui.fileopenbox()
-    return pd.read_json(filename)
 
 
 def get_No(data):
