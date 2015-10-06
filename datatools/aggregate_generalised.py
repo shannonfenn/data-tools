@@ -26,7 +26,7 @@ def aggregate_generalised(results, key_columns):
     unique_counts = grouped.count()['gen'].nunique()
     if unique_counts > 1:
         print('Warning: non-uniform result numbers, {} unique counts! This '
-              'likely means more not all training sets converged.'.
+              'likely means not all training sets converged.'.
               format(unique_counts))
 
     cols_to_keep = {'gen_tgt_{}'.format(t): np.mean for t in range(No)}
