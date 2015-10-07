@@ -21,16 +21,45 @@ def check_columns_in_dataframe(df, cols):
 def generalisation_probability_plots(df, independant_var):
     No = get_No(df)
 
-    dependent_vars = ['gen_mean'] + ['gen_tgt_{}_mean'.format(i)
-                                     for i in range(No)]
+    # P(Gen) plots
+    plot_settings = {
+        'gen_tgt_{}_mean'.format(i): {
+            'aes': gg.aes(x='Ne', y='gen_tgt_{}_mean'.format(i),
+                          colour=independant_var),
+            'labs': gg.labs(y='P(Gen)', title='Probability of generalising'
+                                              ' target {}'.format(i))
+        }
+        for i in range(No)
+    }
 
-    check_columns_in_dataframe(df, dependent_vars + [independant_var])
+    plot_settings['gen_mean'] = {
+        'aes': gg.aes(x='Ne', y='gen_mean', colour=independant_var),
+        'labs': gg.labs(y='P(Gen)', title='Probability of generalising'
+                                          ' all targets')}
+
+    # Mean gen error plots
+    plot_settings.update({
+        'test_err_tgt_{}_mean'.format(i): {
+            'aes': gg.aes(x='Ne', y='test_err_tgt_{}_mean'.format(i),
+                          colour=independant_var),
+            'labs': gg.labs(y='Error', title='Mean generalisation error in'
+                                             ' target {}'.format(i))
+        }
+        for i in range(No)
+    })
+
+    plot_settings['test_error_simple_mean'] = {
+        'aes': gg.aes(x='Ne', y='test_error_simple_mean',
+                      colour=independant_var),
+        'labs': gg.labs(y='Error', title='Mean generalisation error.')}
+
+    check_columns_in_dataframe(df, plot_settings.keys())
 
     plots = {
-        dep: gg.ggplot(gg.aes(x='Ne', y=dep, colour=independant_var), df) +
-        gg.ylab('P(Gen)') +
-        gg.geom_line()
-        for dep in dependent_vars}
+        colname: gg.ggplot(settings['aes'], df) +
+        settings['labs'] + gg.geom_line()
+        for colname, settings in plot_settings.items()
+    }
 
     return plots
 
