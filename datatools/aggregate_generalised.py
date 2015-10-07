@@ -37,6 +37,7 @@ def aggregate_generalised(results, key_columns):
 
     df = grouped.aggregate(cols_to_keep).reset_index()
 
+    # collapse the multi-index columns by concatenating the names
     df.columns = [' '.join(col).strip().replace(' ', '_')
                   for col in df.columns.values]
 

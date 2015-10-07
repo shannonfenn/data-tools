@@ -10,6 +10,8 @@ options(stringsAsFactors = TRUE)
 ERR_TGT_INFIX <- "_err_tgt_"
 
 get_results <- function(file_name=NULL) {
+    library(tcltk)
+    library(jsonlite)
     options(stringsAsFactors = TRUE)
     if(is.null(file_name)) {
         file_name <- tk_choose.files(
