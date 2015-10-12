@@ -36,7 +36,14 @@ def aggregate_generalised(raw, key_columns):
         print('Warning: non-uniform result numbers, {} unique counts!'.
               format(unique_counts))
 
-    cols_to_keep = {'gen_tgt_{}'.format(t): np.mean for t in range(No)}
+    # training data
+    cols_to_keep = {'mem_tgt_{}'.format(t): np.mean for t in range(No)}
+    cols_to_keep.update({'train_err_tgt_{}'.format(t): np.mean
+                         for t in range(No)})
+    cols_to_keep['mem'] = np.mean
+    cols_to_keep['training_error_simple'] = [np.mean, np.std]
+    # test data
+    cols_to_keep.update({'gen_tgt_{}'.format(t): np.mean for t in range(No)})
     cols_to_keep.update({'test_err_tgt_{}'.format(t): np.mean
                          for t in range(No)})
     cols_to_keep['gen'] = np.mean

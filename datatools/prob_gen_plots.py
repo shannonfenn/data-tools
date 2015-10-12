@@ -41,7 +41,7 @@ def generalisation_probability_plots(df, independant_var):
         'test_err_tgt_{}_mean'.format(i): {
             'aes': gg.aes(x='Ne', y='test_err_tgt_{}_mean'.format(i),
                           colour=independant_var),
-            'labs': gg.labs(y='Error', title='Mean generalisation error in'
+            'labs': gg.labs(y='Error', title='Mean test error in'
                                              ' target {}'.format(i))
         }
         for i in range(No)
@@ -50,7 +50,18 @@ def generalisation_probability_plots(df, independant_var):
     plot_settings['test_error_simple_mean'] = {
         'aes': gg.aes(x='Ne', y='test_error_simple_mean',
                       colour=independant_var),
-        'labs': gg.labs(y='Error', title='Mean generalisation error.')}
+        'labs': gg.labs(y='Error', title='Mean test error.')}
+
+    # training plots
+    plot_settings['mem_mean'] = {
+        'aes': gg.aes(x='Ne', y='mem_mean', colour=independant_var),
+        'labs': gg.labs(y='P(Mem)', title='Frequency of memorising'
+                                          ' all targets')}
+
+    plot_settings['training_error_simple_mean'] = {
+        'aes': gg.aes(x='Ne', y='training_error_simple_mean',
+                      colour=independant_var),
+        'labs': gg.labs(y='Error', title='Mean training error.')}
 
     check_columns_in_dataframe(df, plot_settings.keys())
 
