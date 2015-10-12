@@ -18,10 +18,10 @@ def check_columns_in_dataframe(df, cols):
 
 def cumulative_scores(df, by):
     check_columns_in_dataframe(df, [
-        'optimiser_guiding_function', 'Ne', 'gen_mean'])
+        'optimiser_guiding_function', 's', 'gen_mean'])
+
     for name, group in df.groupby(by):
-        print(name)
-        print(np.trapz(group['gen_mean'], x=group['Ne']))
+        print(name, ':', np.trapz(group['gen_mean'], x=group['s']))
 
 
 def main():
