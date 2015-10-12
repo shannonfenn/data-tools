@@ -4,6 +4,13 @@ import argparse
 import os
 
 
+def get_Ni(data):
+    if data.Ni.min() == data.Ni.max():
+        return data.Ni.min()
+    else:
+        raise ValueError('Non-uniform Ni')
+
+
 def get_No(data):
     if data.No.min() == data.No.max():
         return data.No.min()
@@ -56,6 +63,10 @@ def aggregate_generalised(raw, key_columns):
                           for col in aggregated.columns.values]
 
     aggregated['No'] = No
+
+    # record normalised sample size
+    Ni = get_Ni(raw)
+    aggregated['s'] = aggregated.Ne / 2**Ni
 
     return aggregated
 
