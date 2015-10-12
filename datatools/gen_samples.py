@@ -16,7 +16,7 @@ def check_samples(samples):
                       'suggested to run this tool again.')
 
 
-def generate_and_dump_samples(Ni, num_samples, sample_size, directory):
+def generate_and_dump_samples(Ni, num_samples, sample_size, directory, force):
     # choose (Ns x Ne) random integers without replacement
     samples = np.zeros(shape=(num_samples, sample_size), dtype=np.uint64)
     for i in range(num_samples):
@@ -34,7 +34,7 @@ def generate_and_dump_samples(Ni, num_samples, sample_size, directory):
     # Dump to file
     fname = '{}_{}_{}.npy'.format(Ni, num_samples, sample_size)
     fname = os.path.join(directory, fname)
-    if os.path.isfile(fname):
+    if not force and os.path.isfile(fname):
         raise ValueError('File exists and will not be overwritten', fname)
     np.save(fname, samples)
 
@@ -46,6 +46,8 @@ if __name__ == '__main__':
                         help='number of different samples')
     parser.add_argument('sample_size', type=int,
                         help='number of examples in each sample')
+    parser.add_argument('--force', '-f', action="store_true",
+                        help='force overwriting of files')
     parser.add_argument('--dir', type=str,
                         default='~/HMRI/experiments/datasets/samples',
                         help='directory to store file')
@@ -58,7 +60,7 @@ if __name__ == '__main__':
         raise OSError('Directory does not exist: {}'.format(args.dir))
 
     generate_and_dump_samples(args.Ni, args.num_samples,
-                              args.sample_size, args.dir)
+                              args.sample_size, args.dir, args.force)
 
 
 # for Ne in range(8, 256):
