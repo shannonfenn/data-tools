@@ -11,25 +11,25 @@ def get_No(data):
         raise ValueError('Non-uniform No')
 
 
-def aggregate_generalised(results, key_columns):
-    No = get_No(results)
+def aggregate_generalised(raw, key_columns):
+    No = get_No(raw)
     for t in range(No):
-        target_generalised = results['test_err_tgt_{}'.format(t)] == 0
-        results['gen_tgt_{}'.format(t)] = target_generalised
-        target_memorised = results['train_err_tgt_{}'.format(t)] == 0
-        results['mem_tgt_{}'.format(t)] = target_memorised
+        target_generalised = raw['test_err_tgt_{}'.format(t)] == 0
+        raw['gen_tgt_{}'.format(t)] = target_generalised
+        target_memorised = raw['train_err_tgt_{}'.format(t)] == 0
+        raw['mem_tgt_{}'.format(t)] = target_memorised
 
-    results['gen'] = results.gen_tgt_0
-    results['mem'] = results.mem_tgt_0
+    raw['gen'] = raw.gen_tgt_0
+    raw['mem'] = raw.mem_tgt_0
     for t in range(1, No):
-        results.gen = results.gen & results['gen_tgt_{}'.format(t)]
-        results.mem = results.mem & results['mem_tgt_{}'.format(t)]
+        raw.gen = raw.gen & raw['gen_tgt_{}'.format(t)]
+        raw.mem = raw.mem & raw['mem_tgt_{}'.format(t)]
 
-    if not all(results['mem']):
+    if not all(raw['mem']):
         print('Warning: {} configurations have not achieved memorisation!'.
-              format(len(results['mem']) - sum(results['mem'])))
+              format(len(raw['mem']) - sum(raw['mem'])))
 
-    grouped = results.groupby(key_columns)
+    grouped = raw.groupby(key_columns)
 
     unique_counts = grouped.count()['gen'].nunique()
     if unique_counts > 1:
@@ -42,15 +42,15 @@ def aggregate_generalised(results, key_columns):
     cols_to_keep['gen'] = np.mean
     cols_to_keep['test_error_simple'] = [np.mean, np.std]
 
-    df = grouped.aggregate(cols_to_keep).reset_index()
+    aggregated = grouped.aggregate(cols_to_keep).reset_index()
 
     # collapse the multi-index columns by concatenating the names
-    df.columns = [' '.join(col).strip().replace(' ', '_')
-                  for col in df.columns.values]
+    aggregated.columns = [' '.join(col).strip().replace(' ', '_')
+                          for col in aggregated.columns.values]
 
-    df['No'] = No
+    aggregated['No'] = No
 
-    return df
+    return aggregated
 
 
 def main():
