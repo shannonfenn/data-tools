@@ -47,10 +47,12 @@ if __name__ == '__main__':
     parser.add_argument('sample_size', type=int,
                         help='number of examples in each sample')
     parser.add_argument('--dir', type=str,
-                        default='experiments/datasets/samples',
+                        default='~/HMRI/experiments/datasets/samples',
                         help='directory to store file')
 
     args = parser.parse_args()
+
+    args.dir = os.path.expanduser(args.dir)
 
     if not os.path.isdir(args.dir):
         raise OSError('Directory does not exist: {}'.format(args.dir))
