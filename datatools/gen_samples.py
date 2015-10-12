@@ -9,11 +9,18 @@ def check_samples(samples):
     for s in range(Ns):
         if len(set(samples[s])) < Ne:
             raise RuntimeError('Error: sample with duplicate indices')
+
+    num_duplicates = 0
+    for s in range(Ns):
         for s2 in range(s+1, Ns):
             if np.array_equal(samples[s], samples[s2]):
-                print('Warning: two identical samples generated (this is '
-                      'unlikely and so has not been avoided) it is highly '
-                      'suggested to run this tool again.')
+                num_duplicates += 1
+
+    if num_duplicates > 0:
+        print('Warning: {} samples are duplicated for Ns={}, Ne={}. This is '
+              'unavoidable for Ns >= |samples| choose Ne but can also happen '
+              'by chance otherwise. You may need to run this tool again.'.
+              format(num_duplicates, Ns, Ne))
 
 
 def generate_and_dump_samples(Ni, num_samples, sample_size, directory, force):
