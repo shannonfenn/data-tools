@@ -16,17 +16,24 @@ def aggregate_generalised(results, key_columns):
     for t in range(No):
         target_generalised = results['test_err_tgt_{}'.format(t)] == 0
         results['gen_tgt_{}'.format(t)] = target_generalised
+        target_memorised = results['train_err_tgt_{}'.format(t)] == 0
+        results['mem_tgt_{}'.format(t)] = target_memorised
 
     results['gen'] = results.gen_tgt_0
+    results['mem'] = results.mem_tgt_0
     for t in range(1, No):
         results.gen = results.gen & results['gen_tgt_{}'.format(t)]
+        results.mem = results.mem & results['mem_tgt_{}'.format(t)]
+
+    if not all(results['mem']):
+        print('Warning: {} configurations have not achieved memorisation!'.
+              format(len(results['mem']) - sum(results['mem'])))
 
     grouped = results.groupby(key_columns)
 
     unique_counts = grouped.count()['gen'].nunique()
     if unique_counts > 1:
-        print('Warning: non-uniform result numbers, {} unique counts! This '
-              'likely means not all training sets converged.'.
+        print('Warning: non-uniform result numbers, {} unique counts!'.
               format(unique_counts))
 
     cols_to_keep = {'gen_tgt_{}'.format(t): np.mean for t in range(No)}
