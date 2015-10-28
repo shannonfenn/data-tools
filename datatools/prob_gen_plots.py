@@ -23,7 +23,7 @@ def generalisation_probability_plots(df, independant_var):
     # P(Gen) plots
     plot_settings = {
         'gen_tgt_{}_mean'.format(i): {
-            'aes': gg.aes(x='Ne', y='gen_tgt_{}_mean'.format(i),
+            'aes': gg.aes(x='s', y='gen_tgt_{}_mean'.format(i),
                           colour=independant_var),
             'labs': gg.labs(y='P(Gen)', title='Probability of generalising'
                                               ' target {}'.format(i))
@@ -32,14 +32,14 @@ def generalisation_probability_plots(df, independant_var):
     }
 
     plot_settings['gen_mean'] = {
-        'aes': gg.aes(x='Ne', y='gen_mean', colour=independant_var),
+        'aes': gg.aes(x='s', y='gen_mean', colour=independant_var),
         'labs': gg.labs(y='P(Gen)', title='Probability of generalising'
                                           ' all targets')}
 
     # Mean gen error plots
     plot_settings.update({
         'test_err_tgt_{}_mean'.format(i): {
-            'aes': gg.aes(x='Ne', y='test_err_tgt_{}_mean'.format(i),
+            'aes': gg.aes(x='s', y='test_err_tgt_{}_mean'.format(i),
                           colour=independant_var),
             'labs': gg.labs(y='Error', title='Mean test error in'
                                              ' target {}'.format(i))
@@ -48,18 +48,18 @@ def generalisation_probability_plots(df, independant_var):
     })
 
     plot_settings['test_error_simple_mean'] = {
-        'aes': gg.aes(x='Ne', y='test_error_simple_mean',
+        'aes': gg.aes(x='s', y='test_error_simple_mean',
                       colour=independant_var),
         'labs': gg.labs(y='Error', title='Mean test error.')}
 
     # training plots
     plot_settings['mem_mean'] = {
-        'aes': gg.aes(x='Ne', y='mem_mean', colour=independant_var),
+        'aes': gg.aes(x='s', y='mem_mean', colour=independant_var),
         'labs': gg.labs(y='P(Mem)', title='Frequency of memorising'
                                           ' all targets')}
 
     plot_settings['training_error_simple_mean'] = {
-        'aes': gg.aes(x='Ne', y='training_error_simple_mean',
+        'aes': gg.aes(x='s', y='training_error_simple_mean',
                       colour=independant_var),
         'labs': gg.labs(y='Error', title='Mean training error.')}
 
