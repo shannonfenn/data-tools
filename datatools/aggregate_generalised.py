@@ -18,7 +18,37 @@ def get_No(data):
         raise ValueError('Non-uniform No')
 
 
-def aggregate_generalised(raw, key_columns):
+def accuracy(orders):
+    CM = confusion_matrix(orders)
+    if CM is None:
+        return None
+    else:
+        return CM.trace() / CM.sum()
+
+
+def confusion_matrix(orders):
+    # if there are None/NaNs in the array then there is no valid CM
+    if orders.isnull().values.any():
+        return None
+
+    # we want a 2D array from the incoming pandas series of lists
+    orders = np.array(orders.tolist())
+
+    num_vals = orders.shape[1]
+
+    # an orders array with values outside [0, num_vals)
+    # indicates a pretty big problem
+    if orders.max() >= num_vals or orders.min() < 0:
+        raise ValueError('Input array has values outside [0, num_vals)')
+
+    CM = np.zeros((num_vals, num_vals), dtype=int)
+    for i in range(num_vals):
+        indices, counts = np.unique(orders[:, i], return_counts=True)
+        CM[i, indices] = counts
+    return CM
+
+
+def aggregate_runs(raw, key_columns):
     No = get_No(raw)
     for t in range(No):
         target_generalised = raw['test_err_tgt_{}'.format(t)] == 0
@@ -56,6 +86,9 @@ def aggregate_generalised(raw, key_columns):
     cols_to_keep['gen'] = np.mean
     cols_to_keep['test_error_simple'] = [np.mean, np.std]
 
+    if 'target_order' in raw:
+        cols_to_keep['target_order'] = [confusion_matrix, accuracy]
+
     aggregated = grouped.aggregate(cols_to_keep).reset_index()
 
     # collapse the multi-index columns by concatenating the names
@@ -77,7 +110,9 @@ def main():
     parser = argparse.ArgumentParser(
         description='Calculate generalisation measures for each combination.')
     parser.add_argument('file', type=str)
-    parser.add_argument('--outfile', '-o', type=str)
+    parser.add_argument('--outfile', '-o', type=str,
+                        help='defaults to input filename with \'_gen\''
+                             ' appended.')
     parser.add_argument('--key-columns', type=str, nargs='+',
                         default=default_key_columns)
 
@@ -85,7 +120,7 @@ def main():
 
     df = pd.read_json(args.file)
 
-    df = aggregate_generalised(df, args.key_columns)
+    df = aggregate_runs(df, args.key_columns)
 
     if args.outfile:
         outfile = args.outfile
