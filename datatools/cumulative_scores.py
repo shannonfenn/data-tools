@@ -17,11 +17,19 @@ def check_columns_in_dataframe(df, cols):
 
 
 def cumulative_scores(df, by):
-    check_columns_in_dataframe(df, [
-        'optimiser_guiding_function', 's', 'gen_mean'])
+    if isinstance(by, str):
+        by = [by]
+    check_columns_in_dataframe(df, by + [
+        's', 'gen_mean', 'generalisation_score'])
 
+    print('Cumulative Generalisation Probability')
     for name, group in df.groupby(by):
         print(name, ':', np.trapz(group['gen_mean'], x=group['s']))
+
+    print('Cumulative Generalisation Score')
+    for name, group in df.groupby(by):
+        print(name, ':', np.trapz(group['generalisation_score'],
+                                  x=group['s']))
 
 
 def main():
