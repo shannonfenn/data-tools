@@ -95,6 +95,10 @@ def aggregate_runs(raw, key_columns):
     aggregated.columns = [' '.join(col).strip().replace(' ', '_')
                           for col in aggregated.columns.values]
 
+    # Scores defined by Goudarzi et. al.
+    aggregated['training_score'] = 1 - aggregated.training_error_simple_mean
+    aggregated['generalisation_score'] = 1 - aggregated.test_error_simple_mean
+
     aggregated['No'] = No
 
     # record normalised sample size
