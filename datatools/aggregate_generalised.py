@@ -48,6 +48,10 @@ def confusion_matrix(orders):
     return CM
 
 
+def confusion_matrix_reducer(orders):
+    return confusion_matrix(orders).tolist()
+
+
 def aggregate_runs(raw, key_columns):
     No = get_No(raw)
     for t in range(No):
@@ -87,7 +91,7 @@ def aggregate_runs(raw, key_columns):
     cols_to_keep['test_error_simple'] = [np.mean, np.std]
 
     if 'target_order' in raw:
-        cols_to_keep['target_order'] = [confusion_matrix, accuracy]
+        cols_to_keep['target_order'] = [confusion_matrix_reducer, accuracy]
 
     aggregated = grouped.aggregate(cols_to_keep).reset_index()
 
