@@ -49,7 +49,10 @@ def confusion_matrix(orders):
 
 
 def confusion_matrix_reducer(orders):
-    return confusion_matrix(orders).tolist()
+    CM = confusion_matrix(orders)
+    if CM is not None:
+        CM = CM.tolist()
+    return CM
 
 
 def aggregate_runs(raw, key_columns):
