@@ -63,6 +63,24 @@ def generalisation_probability_plots(df, independant_var):
                       colour=independant_var),
         'labs': gg.labs(y='Error', title='Mean training error.')}
 
+    plot_settings['training_score'] = {
+        'aes': gg.aes(x='s', y='training_score',
+                      colour=independant_var),
+        'labs': gg.labs(y='Score', title='Training score.')}
+
+    plot_settings['generalisation_score'] = {
+        'aes': gg.aes(x='s', y='generalisation_score',
+                      colour=independant_var),
+        'labs': gg.labs(y='Score', title='Generalisation score.')}
+
+    if 'target_order_accuracy' in df:
+        plot_settings['target_order_accuracy'] = {
+            'aes': gg.aes(x='s', y='target_order_accuracy',
+                          colour=independant_var),
+            'labs': gg.labs(y='Accuracy', title='Target ordering accuracy.')}
+    else:
+        print('\'target_order_accuracy\' not in dataframe. No plot generated.')
+
     check_columns_in_dataframe(df, plot_settings.keys())
 
     plots = {
