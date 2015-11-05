@@ -69,29 +69,28 @@ def aggregate_runs(raw, key_columns):
         raw.gen = raw.gen & raw['gen_tgt_{}'.format(t)]
         raw.mem = raw.mem & raw['mem_tgt_{}'.format(t)]
 
+    # check that all configurations have memorised
     if not all(raw['mem']):
         print('Warning: {} configurations have not achieved memorisation!'.
               format(len(raw['mem']) - sum(raw['mem'])))
 
     grouped = raw.groupby(key_columns)
 
-    unique_counts = grouped.count()['gen'].nunique()
-    if unique_counts > 1:
-        print('Warning: non-uniform result numbers, {} unique counts!'.
-              format(unique_counts))
-
     # training data
-    cols_to_keep = {'mem_tgt_{}'.format(t): np.mean for t in range(No)}
-    cols_to_keep.update({'train_err_tgt_{}'.format(t): np.mean
-                         for t in range(No)})
-    cols_to_keep['mem'] = np.mean
+    cols_to_keep = dict()
     cols_to_keep['training_error_simple'] = [np.mean, np.std]
+    cols_to_keep['mem'] = np.mean
+    cols_to_keep.update(
+        {'mem_tgt_{}'.format(t): np.mean for t in range(No)})
+    cols_to_keep.update(
+        {'train_err_tgt_{}'.format(t): np.mean for t in range(No)})
     # test data
-    cols_to_keep.update({'gen_tgt_{}'.format(t): np.mean for t in range(No)})
-    cols_to_keep.update({'test_err_tgt_{}'.format(t): np.mean
-                         for t in range(No)})
-    cols_to_keep['gen'] = np.mean
     cols_to_keep['test_error_simple'] = [np.mean, np.std]
+    cols_to_keep['gen'] = np.mean
+    cols_to_keep.update(
+        {'gen_tgt_{}'.format(t): np.mean for t in range(No)})
+    cols_to_keep.update(
+        {'test_err_tgt_{}'.format(t): np.mean for t in range(No)})
 
     if 'target_order' in raw:
         cols_to_keep['target_order'] = [confusion_matrix_reducer, accuracy]
@@ -105,6 +104,9 @@ def aggregate_runs(raw, key_columns):
     # Scores defined by Goudarzi et. al.
     aggregated['training_score'] = 1 - aggregated.training_error_simple_mean
     aggregated['generalisation_score'] = 1 - aggregated.test_error_simple_mean
+    for i in range(No):
+        aggregated['trg_score_tgt_{}'.format(i)] = 1 - aggregated['train_err_tgt_{}'.format(i)]
+        aggregated['gen_score_tgt_{}'.format(i)] = 1 - aggregated['test_err_tgt_{}'.format(i)]
 
     aggregated['No'] = No
 
