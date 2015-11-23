@@ -16,20 +16,34 @@ def check_columns_in_dataframe(df, cols):
             raise ValueError('Column not in the dataframe: {}'.format(c))
 
 
-def cumulative_scores(df, by):
+def cumulative_scores(df, by, verbose):
     if isinstance(by, str):
         by = [by]
     check_columns_in_dataframe(df, by + [
         's', 'gen_mean', 'generalisation_score'])
 
+    No = get_No(df)
+
     print('Cumulative Generalisation Probability')
     for name, group in df.groupby(by):
-        print(name, ':', np.trapz(group['gen_mean'], x=group['s']))
+        full = np.trapz(group['gen_mean'], x=group['s'])
+        per_tgt = [np.trapz(group['gen_tgt_{}_mean'.format(i)], x=group['s'])
+                   for i in range(No)]
+        print(name, ':', full, per_tgt if verbose else '')
 
     print('Cumulative Generalisation Score')
     for name, group in df.groupby(by):
-        print(name, ':', np.trapz(group['generalisation_score'],
-                                  x=group['s']))
+        full = np.trapz(group['generalisation_score'], x=group['s'])
+        per_tgt = [np.trapz(group['gen_score_tgt_{}'.format(i)], x=group['s'])
+                   for i in range(No)]
+        print(name, ':', full, per_tgt if verbose else '')
+
+    print('Cumulative Generalisation Score Ignoring Zeroes')
+    for name, group in df.groupby(by):
+        full = np.trapz(group['generalisation_score_non_zero'], x=group['s'])
+        per_tgt = [np.trapz(group['gen_score_tgt_{}_non_zero'.format(i)], x=group['s'])
+                   for i in range(No)]
+        print(name, ':', full, per_tgt if verbose else '')
 
 
 def main():
@@ -38,6 +52,8 @@ def main():
         description='Calculate cumulative generalisation measures for each '
                     'guiding function.')
     parser.add_argument('file', type=str)
+    parser.add_argument('-v', action='store_true',
+                        help='verbose: include scores per target.')
     # parser.add_argument('--independant-var', '-i', type=str, nargs='+',
     #                     default=default_ind_var)
 
@@ -45,7 +61,7 @@ def main():
 
     df = pd.read_json(args.file)
 
-    cumulative_scores(df, 'optimiser_guiding_function')
+    cumulative_scores(df, 'optimiser_guiding_function', args.v)
 
 
 if __name__ == '__main__':
