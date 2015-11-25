@@ -18,6 +18,10 @@ def get_No(data):
         raise ValueError('Non-uniform No')
 
 
+def mean_non_zero(col):
+    return np.ma.masked_values(col, 0.0, rtol=0, copy=False).mean()
+
+
 def accuracy(orders):
     CM = confusion_matrix(orders)
     if CM is None:
@@ -78,19 +82,21 @@ def aggregate_runs(raw, key_columns):
 
     # training data
     cols_to_keep = dict()
-    cols_to_keep['training_error_simple'] = [np.mean, np.std]
+    cols_to_keep['training_error_simple'] = [np.mean, np.std, mean_non_zero]
     cols_to_keep['mem'] = np.mean
     cols_to_keep.update(
         {'mem_tgt_{}'.format(t): np.mean for t in range(No)})
     cols_to_keep.update(
-        {'train_err_tgt_{}'.format(t): np.mean for t in range(No)})
+        {'train_err_tgt_{}'.format(t): [np.mean, np.std, mean_non_zero]
+         for t in range(No)})
     # test data
-    cols_to_keep['test_error_simple'] = [np.mean, np.std]
+    cols_to_keep['test_error_simple'] = [np.mean, np.std, mean_non_zero]
     cols_to_keep['gen'] = np.mean
     cols_to_keep.update(
         {'gen_tgt_{}'.format(t): np.mean for t in range(No)})
     cols_to_keep.update(
-        {'test_err_tgt_{}'.format(t): np.mean for t in range(No)})
+        {'test_err_tgt_{}'.format(t): [np.mean, np.std, mean_non_zero]
+         for t in range(No)})
 
     if 'target_order' in raw:
         cols_to_keep['target_order'] = [confusion_matrix_reducer, accuracy]
@@ -105,8 +111,23 @@ def aggregate_runs(raw, key_columns):
     aggregated['training_score'] = 1 - aggregated.training_error_simple_mean
     aggregated['generalisation_score'] = 1 - aggregated.test_error_simple_mean
     for i in range(No):
-        aggregated['trg_score_tgt_{}'.format(i)] = 1 - aggregated['train_err_tgt_{}'.format(i)]
-        aggregated['gen_score_tgt_{}'.format(i)] = 1 - aggregated['test_err_tgt_{}'.format(i)]
+        src_key = 'train_err_tgt_{}_mean'.format(i)
+        new_key = 'trg_score_tgt_{}'.format(i)
+        aggregated[new_key] = 1 - aggregated[src_key]
+        src_key = 'test_err_tgt_{}_mean'.format(i)
+        new_key = 'gen_score_tgt_{}'.format(i)
+        aggregated[new_key] = 1 - aggregated[src_key]
+
+    # scores for non-generalised cases
+    aggregated['training_score_non_zero'] = 1 - aggregated.training_error_simple_mean_non_zero
+    aggregated['generalisation_score_non_zero'] = 1 - aggregated.test_error_simple_mean_non_zero
+    for i in range(No):
+        src_key = 'train_err_tgt_{}_mean_non_zero'.format(i)
+        new_key = 'trg_score_tgt_{}_non_zero'.format(i)
+        aggregated[new_key] = 1 - aggregated[src_key]
+        src_key = 'test_err_tgt_{}_mean_non_zero'.format(i)
+        new_key = 'gen_score_tgt_{}_non_zero'.format(i)
+        aggregated[new_key] = 1 - aggregated[src_key]
 
     aggregated['No'] = No
 
