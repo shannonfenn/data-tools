@@ -28,7 +28,7 @@ def operator_function(operator_name, Ni, No):
 
     op = OPERATOR_MAP[operator_name]
 
-    return lambda x: to_binary(op(x // Nb, x % Nb), No)
+    return lambda x: to_binary(op(int(x // Nb), int(x % Nb)), No)
 
 
 def check_samples(samples):
@@ -57,10 +57,10 @@ def construct_dichotomous_sample_base(operator, Ni, No):
         there is a function expressed by the examples for each target).'''
     # generate one example randomly
     r = np.uint64(np.random.randint(2**Ni))
-    so_far = set(r)
+    so_far = set([r])
     targets_so_far = [set()] * No
 
-    for o in No:
+    for o in range(No):
         # record the target value (for this target) of all existing examples
         for example in so_far:
             T = operator(r)
@@ -70,31 +70,44 @@ def construct_dichotomous_sample_base(operator, Ni, No):
         # since we generate an initial random example
         if len(targets_so_far[o]) < 2:
             r = np.uint64(np.random.randint(2**Ni))
-            while operator[r][o] in targets_so_far[o]:
+            while operator(r)[o] in targets_so_far[o]:
                 r = np.uint64(np.random.randint(2**Ni))
             so_far.add(r)
+    return so_far
 
 
-def single_unique_valid_sample(operator, Ni, No, sample_size, output_vector):
+def single_unique_valid_sample(operator, Ni, No, Ne, output_vector):
     so_far = construct_dichotomous_sample_base(operator, Ni, No)
 
-    for i, example in so_far:
+    # print(so_far)
+
+    for i, example in enumerate(so_far):
         output_vector[i] = example
 
-    for i in range(len(so_far), sample_size):
+    for i in range(len(so_far), Ne):
         r = np.uint64(np.random.randint(2**Ni))
+        # k = 0
+        # print('\n', r, so_far)
         # ensure we sample without replacement
         while r in so_far:
             r = np.uint64(np.random.randint(2**Ni))
+            # k += 1
+            # if k > 4:
+            #     raise ValueError
+            # print(r, so_far)
         output_vector[i] = r
         so_far.add(r)
 
 
-def unique_valid_samples(operator, Ni, No, num_samples, sample_size):
-    samples = np.zeros(shape=(num_samples, sample_size), dtype=np.uint64)
+def unique_valid_samples(operator, Ni, No, Ns, Ne):
+    if Ne > 2**Ni:
+        raise ValueError('Cannot draw {} unique patterns of {} bits.'
+                         .format(Ne, Ni))
 
-    for i in range(num_samples):
-        single_unique_valid_sample(operator, Ni, No, sample_size, samples[i])
+    samples = np.zeros(shape=(Ns, Ne), dtype=np.uint64)
+
+    for i in range(Ns):
+        single_unique_valid_sample(operator, Ni, No, Ne, samples[i])
 
     return samples
 

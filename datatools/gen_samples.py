@@ -23,12 +23,16 @@ def check_samples(samples):
               format(num_duplicates, Ns, Ne))
 
 
-def generate_and_dump_samples(Ni, num_samples, sample_size, directory, force):
+def generate_and_dump_samples(Ni, Ns, Ne, directory, force):
+    if Ne > 2**Ni:
+        raise ValueError('Cannot draw {} unique patterns of {} bits.'
+                         .format(Ne, Ni))
+
     # choose (Ns x Ne) random integers without replacement
-    samples = np.zeros(shape=(num_samples, sample_size), dtype=np.uint64)
-    for i in range(num_samples):
+    samples = np.zeros(shape=(Ns, Ne), dtype=np.uint64)
+    for i in range(Ns):
         so_far = set()
-        for k in range(sample_size):
+        for k in range(Ne):
             r = np.uint64(np.random.randint(2**Ni))
             while r in so_far:
                 r = np.uint64(np.random.randint(2**Ni))
