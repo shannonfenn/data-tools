@@ -4,32 +4,25 @@ import numpy as np
 
 
 def to_binary(val, Nb):
-    print(val, Nb)
     return [int(i) for i in '{:0{w}b}'.format(val, w=Nb)][::-1][:Nb]
 
 
 def operator_function(operator_name, Ni, No):
-    if Ni % 2:
-        raise ValueError('Only binary operators supported, Ni must be even.')
-
     Nb = Ni // 2
-
-    if No > Nb:
-        raise ValueError('No > Ni/2. All supported operators have a maximum '
-                         'output width of Ni/2')
+    d = 2**Nb
 
     if operator_name == 'zero':
         return lambda x: 0
     elif operator_name == 'add':
-        return lambda x: to_binary(int(x // Nb) + int(x % Nb), No)
+        return lambda x: to_binary(int(x // d) + int(x % d), No)
     elif operator_name == 'sub':
-        return lambda x: to_binary((int(x // Nb) - int(x % Nb)) % (2**Nb), No)
+        return lambda x: to_binary((int(x // d) - int(x % d)) % d, No)
     elif operator_name == 'mul':
-        return lambda x: to_binary(int(x // Nb) * int(x % Nb), No)
+        return lambda x: to_binary(int(x // d) * int(x % d), No)
     elif operator_name == 'and':
-        return lambda x: to_binary(int(x // Nb) & int(x % Nb), No)
+        return lambda x: to_binary(int(x // d) & int(x % d), No)
     elif operator_name == 'or':
-        return lambda x: to_binary(int(x // Nb) | int(x % Nb), No)
+        return lambda x: to_binary(int(x // d) | int(x % d), No)
     else:
         raise ValueError('no such operator: {}')
 
@@ -61,13 +54,14 @@ def construct_dichotomous_sample_base(operator, Ni, No):
     # generate one example randomly
     r = np.uint64(np.random.randint(2**Ni))
     so_far = set([r])
-    targets_so_far = [set()] * No
+    targets_so_far = [set() for i in range(No)]
 
     for o in range(No):
         # record the target value (for this target) of all existing examples
         for example in so_far:
             T = operator(example)
             targets_so_far[o].add(T[o])
+
         # only generate new samples if the existing  are not dichotomous for
         # this target note that there will always be at least one value present
         # since we generate an initial random example
@@ -82,22 +76,13 @@ def construct_dichotomous_sample_base(operator, Ni, No):
 def single_unique_valid_sample(operator, Ni, No, Ne, output_vector):
     so_far = construct_dichotomous_sample_base(operator, Ni, No)
 
-    # print(so_far)
-
     for i, example in enumerate(so_far):
         output_vector[i] = example
 
     for i in range(len(so_far), Ne):
         r = np.uint64(np.random.randint(2**Ni))
-        # k = 0
-        # print('\n', r, so_far)
-        # ensure we sample without replacement
         while r in so_far:
             r = np.uint64(np.random.randint(2**Ni))
-            # k += 1
-            # if k > 4:
-            #     raise ValueError
-            # print(r, so_far)
         output_vector[i] = r
         so_far.add(r)
 
@@ -115,11 +100,11 @@ def unique_valid_samples(operator, Ni, No, Ns, Ne):
     return samples
 
 
-def generate_and_dump_samples(operator_name, Ni, No, num_samples,
-                              sample_size, directory, force):
+def generate_and_dump_samples(operator_name, Ni, No, Ns,
+                              Ne, directory, force):
     # generate filename and ensure it is writtable or force is set
     fname = '{}_{}_{}_{}_{}.npy'.format(
-        Ni, num_samples, sample_size, operator_name, No)
+        Ni, Ns, Ne, operator_name, No)
     fname = os.path.join(directory, fname)
     if not force and os.path.isfile(fname):
         raise ValueError('File exists and will not be overwritten', fname)
@@ -128,7 +113,7 @@ def generate_and_dump_samples(operator_name, Ni, No, num_samples,
     operator = operator_function(operator_name, Ni, No)
 
     # choose (Ns x Ne) random integers without replacement
-    samples = unique_valid_samples(Ni, num_samples, sample_size, operator)
+    samples = unique_valid_samples(operator, Ni, No, Ns, Ne)
 
     # check the samples for errors
     check_samples(samples)
