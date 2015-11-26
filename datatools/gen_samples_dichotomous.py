@@ -103,7 +103,7 @@ def unique_valid_samples(operator, Ni, No, Ns, Ne):
 def generate_and_dump_samples(operator_name, Ni, No, Ns,
                               Ne, directory, force):
     # generate filename and ensure it is writtable or force is set
-    fname = '{}_{}_{}_{}_{}.npy'.format(
+    fname = '{}_{}_{}_dich_{}_{}.npy'.format(
         Ni, Ns, Ne, operator_name, No)
     fname = os.path.join(directory, fname)
     if not force and os.path.isfile(fname):
