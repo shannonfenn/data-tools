@@ -1,18 +1,10 @@
 import argparse
-import operator
 import os.path
 import numpy as np
 
 
-OPERATOR_MAP = {
-    'add': operator.add,
-    'sub': operator.sub,
-    'mul': operator.mul,
-    'div': operator.floordiv,
-}
-
-
 def to_binary(val, Nb):
+    print(val, Nb)
     return [int(i) for i in '{:0{w}b}'.format(val, w=Nb)][::-1][:Nb]
 
 
@@ -26,9 +18,20 @@ def operator_function(operator_name, Ni, No):
         raise ValueError('No > Ni/2. All supported operators have a maximum '
                          'output width of Ni/2')
 
-    op = OPERATOR_MAP[operator_name]
-
-    return lambda x: to_binary(op(int(x // Nb), int(x % Nb)), No)
+    if operator_name == 'zero':
+        return lambda x: 0
+    elif operator_name == 'add':
+        return lambda x: to_binary(int(x // Nb) + int(x % Nb), No)
+    elif operator_name == 'sub':
+        return lambda x: to_binary((int(x // Nb) - int(x % Nb)) % (2**Nb), No)
+    elif operator_name == 'mul':
+        return lambda x: to_binary(int(x // Nb) * int(x % Nb), No)
+    elif operator_name == 'and':
+        return lambda x: to_binary(int(x // Nb) & int(x % Nb), No)
+    elif operator_name == 'or':
+        return lambda x: to_binary(int(x // Nb) | int(x % Nb), No)
+    else:
+        raise ValueError('no such operator: {}')
 
 
 def check_samples(samples):
@@ -63,7 +66,7 @@ def construct_dichotomous_sample_base(operator, Ni, No):
     for o in range(No):
         # record the target value (for this target) of all existing examples
         for example in so_far:
-            T = operator(r)
+            T = operator(example)
             targets_so_far[o].add(T[o])
         # only generate new samples if the existing  are not dichotomous for
         # this target note that there will always be at least one value present
@@ -139,7 +142,8 @@ if __name__ == '__main__':
         description='Generate sample indices and '
         'ensure they are contain both 0 and 1 values for each target for the '
         'given operator and target number.')
-    parser.add_argument('operator', type=str, choices=OPERATOR_MAP.keys(),
+    parser.add_argument('operator', type=str,
+                        choices=['zero', 'add', 'sub', 'mul', 'and', 'or'],
                         help='operator to validate for.')
     parser.add_argument('Ni', type=int, help='number of inputs (total)')
     parser.add_argument('No', type=int, help='number of outputs (must be <= '
@@ -171,16 +175,3 @@ if __name__ == '__main__':
     generate_and_dump_samples(
         args.operator, args.Ni, args.No, args.num_samples,
         args.sample_size, args.dir, args.force)
-
-
-# for Ne in range(8, 256):
-#     generate_and_dump_samples(
-#         8, 3, Ne, '/home/shannon/HMRI/fiddle/kFS metrics')
-# l = [2**i for i in range(4, 16)]
-# k = [l[0]]
-# for i in range(len(l)-1):
-#     k.append(l[i+1])
-#     k.append(l[i] + l[i+1])
-# for Ne in k:
-#     generate_and_dump_samples(
-#         16, 3, Ne, '/home/shannon/HMRI/fiddle/kFS metrics')
