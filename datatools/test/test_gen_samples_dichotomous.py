@@ -26,8 +26,6 @@ def test_single_unique_valid_sample(opname, Ni, No, Ne):
     full_target = np.load(filename)
     target_matrix = full_target[sample, :No]
 
-    print(target_matrix)
-
     assert np.all(np.any(target_matrix, axis=0))
     assert not np.any(np.all(target_matrix, axis=0))
 
@@ -48,7 +46,7 @@ def test_unique_valid_samples(opname, Ni, No, Ne, Ns):
     # generate output patterns from sample
     filename = os.path.join(DATA_DIR, '{}{}.npy'.format(opname, Ni))
     full_target = np.load(filename)
-    target_matrix = full_target[samples][:, :No]
+    target_matrix = full_target[samples][:, :, :No]
 
-    assert np.all(np.any(target_matrix, axis=2))
-    assert not np.any(np.all(target_matrix, axis=2))
+    assert np.all(np.any(target_matrix, axis=1))
+    assert not np.any(np.all(target_matrix, axis=1))
