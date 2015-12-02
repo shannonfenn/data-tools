@@ -43,7 +43,7 @@ def generate_and_dump_samples(Ni, Ns, Ne, directory, force):
     check_samples(samples)
 
     # Dump to file
-    fname = '{}_{}_{}.npy'.format(Ni, num_samples, sample_size)
+    fname = '{}_{}_{}.npy'.format(Ni, Ns, Ne)
     fname = os.path.join(directory, fname)
     if not force and os.path.isfile(fname):
         raise ValueError('File exists and will not be overwritten', fname)
