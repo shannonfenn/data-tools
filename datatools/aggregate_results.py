@@ -160,7 +160,7 @@ def main():
         outfile = args.outfile
     else:
         base, ext = os.path.splitext(args.file)
-        outfile = base + '_gen' + ext
+        outfile = base + '_aggregated' + ext
 
     df.to_json(outfile, orient='records')
 
