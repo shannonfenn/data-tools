@@ -1,1 +1,5 @@
 *.sublime-workspace
+.cache/
+build/
+*.pyc
+*.egg-info
