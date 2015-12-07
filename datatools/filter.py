@@ -1,16 +1,17 @@
 import re
-import ujson
+import rapidjson as json
 import argparse
 
 
 def filtered(line, key_regex):
-    record = ujson.loads(line, precise_float=True)
+    # record = json.loads(line, precise_float=True)
+    record = json.loads(line)
     keys_to_remove = set()
     for key in record:
         if key_regex.fullmatch(key):
             keys_to_remove.add(key)
     record = {k: record[k] for k in record.keys() - keys_to_remove}
-    return ujson.dumps(record)
+    return json.dumps(record)
 
 
 def filter_file(infile, outfile, key_regex):
