@@ -33,7 +33,7 @@ def main():
     parser.add_argument('outfile', type=argparse.FileType('w'))
     args = parser.parse_args()
 
-    regex = re.compile('|'.join(['final_network', 'training_indices',
+    regex = re.compile('|'.join(['final_net', 'training_indices',
                                  'intermediate_network_\\d+']))
 
     filter_file(args.infile, args.outfile, regex)

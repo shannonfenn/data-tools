@@ -6,7 +6,7 @@ import numpy as np
 def check_dataframe(filename, data_frame, key_columns):
     if any(col not in data_frame for col in key_columns):
         raise ValueError('Key columns not in {}.'.format(filename))
-    nonzero = np.count_nonzero(data_frame['training_error_simple'])
+    nonzero = np.count_nonzero(data_frame['trg_error'])
     if nonzero:
         print('Warning, some failed runs in {}.'.format(filename))
 
@@ -18,10 +18,9 @@ def join_completed(filenames, key_columns=None):
         df = pd.read_json(filename)
         check_dataframe(df, key_columns)
         if completed is None:
-            completed = df[df['training_error_simple'] == 0]
+            completed = df[df['trg_error'] == 0]
         else:
-            completed = pd.concat([completed,
-                                   df[df['training_error_simple'] == 0]],
+            completed = pd.concat([completed, df[df['trg_error'] == 0]],
                                   ignore_index=True)
     # check if rows are unique on given columns
     if key_columns:
