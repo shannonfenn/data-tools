@@ -1,6 +1,7 @@
 import re
-import rapidjson as json
 import argparse
+import rapidjson as json
+from os.path import splitext
 
 
 def filtered(line, key_regex):
@@ -29,14 +30,19 @@ def filter_file(infile, outfile, key_regex):
 def main():
     parser = argparse.ArgumentParser(
         description='Filter long entries out of records.')
-    parser.add_argument('infile', type=argparse.FileType('r'))
-    parser.add_argument('outfile', type=argparse.FileType('w'))
+    parser.add_argument('infile', type=str)
+    parser.add_argument('outfile', nargs='?', type=str)
     args = parser.parse_args()
+
+    if args.outfile is None:
+        base, ext = splitext(args.infile)
+        args.outfile = base + '_filtered' + ext
 
     regex = re.compile('|'.join(['final_net', 'training_indices',
                                  'intermediate_network_\\d+']))
 
-    filter_file(args.infile, args.outfile, regex)
+    with open(args.infile) as infile, open(args.outfile, 'w') as outfile:
+        filter_file(infile, outfile, regex)
 
 
 if __name__ == '__main__':
