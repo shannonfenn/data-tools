@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import argparse
-import os
+from os.path import splitext
 
 
 def get_Ni(data):
@@ -122,11 +122,11 @@ def aggregate_runs(raw, key_columns):
     aggregated['trg_score_nonzero'] = 1 - aggregated.trg_error_mean_nonzero
     aggregated['gen_score_nonzero'] = 1 - aggregated.test_error_mean_nonzero
     for i in range(No):
-        src_key = 'trg_err_tgt_{}_mean_non_zero'.format(i)
-        new_key = 'trg_score_tgt_{}_non_zero'.format(i)
+        src_key = 'trg_err_tgt_{}_mean_nonzero'.format(i)
+        new_key = 'trg_score_tgt_{}_nonzero'.format(i)
         aggregated[new_key] = 1 - aggregated[src_key]
-        src_key = 'test_err_tgt_{}_mean_non_zero'.format(i)
-        new_key = 'gen_score_tgt_{}_non_zero'.format(i)
+        src_key = 'test_err_tgt_{}_mean_nonzero'.format(i)
+        new_key = 'gen_score_tgt_{}_nonzero'.format(i)
         aggregated[new_key] = 1 - aggregated[src_key]
 
     aggregated['No'] = No
@@ -143,26 +143,22 @@ def main():
     default_key_columns = ['learner', 'guiding_function', 'Ne']
     parser = argparse.ArgumentParser(
         description='Calculate generalisation measures for each combination.')
-    parser.add_argument('file', type=str)
-    parser.add_argument('--outfile', '-o', type=str,
-                        help='defaults to input filename with \'_gen\''
-                             ' appended.')
+    parser.add_argument('infile', type=str)
+    parser.add_argument('outfile', nargs='?', type=str,
+                        help='defaults to \'<infile>_aggregated.json\'')
     parser.add_argument('--key-columns', type=str, nargs='+',
                         default=default_key_columns)
-
     args = parser.parse_args()
 
-    df = pd.read_json(args.file)
+    if args.outfile is None:
+        base, ext = splitext(args.infile)
+        args.outfile = base + '_aggregated' + ext
+
+    df = pd.read_json(args.infile)
 
     df = aggregate_runs(df, args.key_columns)
 
-    if args.outfile:
-        outfile = args.outfile
-    else:
-        base, ext = os.path.splitext(args.file)
-        outfile = base + '_aggregated' + ext
-
-    df.to_json(outfile, orient='records')
+    df.to_json(args.outfile, orient='records')
 
 
 if __name__ == '__main__':
