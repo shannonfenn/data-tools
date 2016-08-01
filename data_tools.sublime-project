@@ -1,11 +1,15 @@
 {
+	"SublimeLinter":
+	{
+		"@python": 3
+	},
 	"build_systems":
 	[
 		{
 			"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
 			"name": "Anaconda Python Builder",
 			"selector": "source.python",
-			"shell_cmd": "/home/shannon/hyrule/bin/python -u \"$file\""
+			"shell_cmd": "\"/home/shannon/hyrule/bin/python\" -u \"$file\""
 		}
 	],
 	"folders":
@@ -17,9 +21,5 @@
 	"settings":
 	{
 		"python_interpreter": "/home/shannon/hyrule/bin/python"
-	},
-	"SublimeLinter":
-    {
-        "@python": 3
-    }
+	}
 }
