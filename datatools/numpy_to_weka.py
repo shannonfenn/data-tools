@@ -1,32 +1,25 @@
 import numpy as np
 
 
-def numpy_to_weka(filename, relation_name, attribute_details, attributes, comments=[]):
+def numpy_to_weka(filename, relation_name, att_names, attributes, comment=''):
     """ writes NumPy arrays with data to WEKA format .arff files
 
-        input: relation_name (string with a description), attribute_details (list 
-        of the names of different attributes), attributes (array of attributes, 
-        one row for each attribute, WEKA treats last row as classlabels by 
-        default), comment (short description of the content)."""
+        input:  relation_name (string with a description),
+                att_names (list of attribute names),
+                attributes (array of attributes),
+                comment (short description of the content)."""
 
-    num_examples, num_attributes = attributes.shape
-    if num_attributes != len(attribute_details):
+    _, num_attributes = attributes.shape
+    if num_attributes != len(att_names):
         raise Exception('Number of attribute names != length of attributes')
 
-    header = ''
-    for comment in comments:
-        header += '% {}\n'.format(comment)
+    header = '% {}\n'.format(comment)
     header += '@RELATION {}\n'.format(relation_name)
 
-    for name, dtype in attribute_details.items():
+    for name in att_names:
         # assume values are numeric
-        header += '@ATTRIBUTE {} {}\n'.format(name, dtype)
+        header += '@ATTRIBUTE {} NUMERIC\n'.format(name)
 
     header += '\n@DATA\n'
 
-    if np.issubdtype(attributes.dtype, np.integer):
-        fmt = '%d'
-    else:
-        fmt = '%.18e'
-
-    np.savetxt(filename, attributes, fmt=fmt, delimiter=',', header=header)
+    np.savetxt(filename, attributes, fmt='%d', delimiter=',', header=header)
