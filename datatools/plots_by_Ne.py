@@ -51,9 +51,8 @@ def generalisation_probability_plots(df, by, independant_var):
         for i in range(No)
     })
 
-    plot_settings['test_error_simple_mean'] = {
-        'aes': gg.aes(x=independant_var, y='test_error_simple_mean',
-                      colour=by),
+    plot_settings['test_error_mean'] = {
+        'aes': gg.aes(x=independant_var, y='test_error_mean', colour=by),
         'labs': gg.labs(y='Error', title='Mean test error.')}
 
     # training plots
@@ -62,19 +61,16 @@ def generalisation_probability_plots(df, by, independant_var):
         'labs': gg.labs(y='P(Mem)', title='Frequency of memorising'
                                           ' all targets')}
 
-    plot_settings['training_error_simple_mean'] = {
-        'aes': gg.aes(x=independant_var, y='training_error_simple_mean',
-                      colour=by),
+    plot_settings['trg_error_mean'] = {
+        'aes': gg.aes(x=independant_var, y='trg_error_mean', colour=by),
         'labs': gg.labs(y='Error', title='Mean training error.')}
 
-    plot_settings['training_score'] = {
-        'aes': gg.aes(x=independant_var, y='training_score',
-                      colour=by),
+    plot_settings['trg_score'] = {
+        'aes': gg.aes(x=independant_var, y='trg_score', colour=by),
         'labs': gg.labs(y='Score', title='Training score.')}
 
-    plot_settings['generalisation_score'] = {
-        'aes': gg.aes(x=independant_var, y='generalisation_score',
-                      colour=by),
+    plot_settings['gen_score'] = {
+        'aes': gg.aes(x=independant_var, y='gen_score', colour=by),
         'labs': gg.labs(y='Score', title='Generalisation score.')}
 
     # if 'target_order_accuracy' in df:
@@ -115,9 +111,8 @@ def main():
 
     df = pd.read_json(args.file)
 
-    check_columns_in_dataframe(df, ['optimiser_guiding_function'])
+    check_columns_in_dataframe(df, ['guiding_function'])
 
-    df['guiding function'] = df.optimiser_guiding_function
     df['guiding function'].replace(gf_map, inplace=True)
 
     if args.outfile_prefix:

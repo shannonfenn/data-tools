@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import argparse
-import os
+from os.path import splitext
 
 
 def get_Ni(data):
@@ -18,7 +18,7 @@ def get_No(data):
         raise ValueError('Non-uniform No')
 
 
-def mean_non_zero(col):
+def mean_nonzero(col):
     return np.ma.masked_values(col, 0.0, rtol=0, copy=False).mean()
 
 
@@ -64,7 +64,7 @@ def aggregate_runs(raw, key_columns):
     for t in range(No):
         target_generalised = raw['test_err_tgt_{}'.format(t)] == 0
         raw['gen_tgt_{}'.format(t)] = target_generalised
-        target_memorised = raw['train_err_tgt_{}'.format(t)] == 0
+        target_memorised = raw['trg_err_tgt_{}'.format(t)] == 0
         raw['mem_tgt_{}'.format(t)] = target_memorised
 
     raw['gen'] = raw.gen_tgt_0
@@ -82,24 +82,24 @@ def aggregate_runs(raw, key_columns):
 
     # training data
     cols_to_keep = dict()
-    cols_to_keep['training_error_simple'] = [np.mean, np.std, mean_non_zero]
+    cols_to_keep['trg_error'] = [np.mean, np.std, mean_nonzero]
     cols_to_keep['mem'] = np.mean
     cols_to_keep.update(
         {'mem_tgt_{}'.format(t): np.mean for t in range(No)})
     cols_to_keep.update(
-        {'train_err_tgt_{}'.format(t): [np.mean, np.std, mean_non_zero]
+        {'trg_err_tgt_{}'.format(t): [np.mean, np.std, mean_nonzero]
          for t in range(No)})
     # test data
-    cols_to_keep['test_error_simple'] = [np.mean, np.std, mean_non_zero]
+    cols_to_keep['test_error'] = [np.mean, np.std, mean_nonzero]
     cols_to_keep['gen'] = np.mean
     cols_to_keep.update(
         {'gen_tgt_{}'.format(t): np.mean for t in range(No)})
     cols_to_keep.update(
-        {'test_err_tgt_{}'.format(t): [np.mean, np.std, mean_non_zero]
+        {'test_err_tgt_{}'.format(t): [np.mean, np.std, mean_nonzero]
          for t in range(No)})
 
-    if 'target_order' in raw:
-        cols_to_keep['target_order'] = [confusion_matrix_reducer, accuracy]
+    if 'tgt_order' in raw:
+        cols_to_keep['tgt_order'] = [confusion_matrix_reducer, accuracy]
 
     aggregated = grouped.aggregate(cols_to_keep).reset_index()
 
@@ -108,10 +108,10 @@ def aggregate_runs(raw, key_columns):
                           for col in aggregated.columns.values]
 
     # Scores defined by Goudarzi et. al.
-    aggregated['training_score'] = 1 - aggregated.training_error_simple_mean
-    aggregated['generalisation_score'] = 1 - aggregated.test_error_simple_mean
+    aggregated['trg_score'] = 1 - aggregated.trg_error_mean
+    aggregated['gen_score'] = 1 - aggregated.test_error_mean
     for i in range(No):
-        src_key = 'train_err_tgt_{}_mean'.format(i)
+        src_key = 'trg_err_tgt_{}_mean'.format(i)
         new_key = 'trg_score_tgt_{}'.format(i)
         aggregated[new_key] = 1 - aggregated[src_key]
         src_key = 'test_err_tgt_{}_mean'.format(i)
@@ -119,14 +119,14 @@ def aggregate_runs(raw, key_columns):
         aggregated[new_key] = 1 - aggregated[src_key]
 
     # scores for non-generalised cases
-    aggregated['training_score_non_zero'] = 1 - aggregated.training_error_simple_mean_non_zero
-    aggregated['generalisation_score_non_zero'] = 1 - aggregated.test_error_simple_mean_non_zero
+    aggregated['trg_score_nonzero'] = 1 - aggregated.trg_error_mean_nonzero
+    aggregated['gen_score_nonzero'] = 1 - aggregated.test_error_mean_nonzero
     for i in range(No):
-        src_key = 'train_err_tgt_{}_mean_non_zero'.format(i)
-        new_key = 'trg_score_tgt_{}_non_zero'.format(i)
+        src_key = 'trg_err_tgt_{}_mean_nonzero'.format(i)
+        new_key = 'trg_score_tgt_{}_nonzero'.format(i)
         aggregated[new_key] = 1 - aggregated[src_key]
-        src_key = 'test_err_tgt_{}_mean_non_zero'.format(i)
-        new_key = 'gen_score_tgt_{}_non_zero'.format(i)
+        src_key = 'test_err_tgt_{}_mean_nonzero'.format(i)
+        new_key = 'gen_score_tgt_{}_nonzero'.format(i)
         aggregated[new_key] = 1 - aggregated[src_key]
 
     aggregated['No'] = No
@@ -140,29 +140,25 @@ def aggregate_runs(raw, key_columns):
 
 def main():
     # scores: generalisation probability and mean generalisation error
-    default_key_columns = ['learner', 'optimiser_guiding_function', 'Ne']
+    default_key_columns = ['learner', 'guiding_function', 'Ne']
     parser = argparse.ArgumentParser(
         description='Calculate generalisation measures for each combination.')
-    parser.add_argument('file', type=str)
-    parser.add_argument('--outfile', '-o', type=str,
-                        help='defaults to input filename with \'_gen\''
-                             ' appended.')
+    parser.add_argument('infile', type=str)
+    parser.add_argument('outfile', nargs='?', type=str,
+                        help='defaults to \'<infile>_aggregated.json\'')
     parser.add_argument('--key-columns', type=str, nargs='+',
                         default=default_key_columns)
-
     args = parser.parse_args()
 
-    df = pd.read_json(args.file)
+    if args.outfile is None:
+        base, ext = splitext(args.infile)
+        args.outfile = base + '_aggregated' + ext
+
+    df = pd.read_json(args.infile)
 
     df = aggregate_runs(df, args.key_columns)
 
-    if args.outfile:
-        outfile = args.outfile
-    else:
-        base, ext = os.path.splitext(args.file)
-        outfile = base + '_gen' + ext
-
-    df.to_json(outfile, orient='records')
+    df.to_json(args.outfile, orient='records')
 
 
 if __name__ == '__main__':

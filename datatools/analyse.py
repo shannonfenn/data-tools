@@ -13,7 +13,7 @@ PALETTE = palettable.colorbrewer.qualitative.Set3_12.hex_colors
 
 
 def get_network_from_result(result):
-    gates = result['final_network']
+    gates = result['final_net']
     Ni, No = result['Ni'], result['No']
     return (gates, Ni, No)
 

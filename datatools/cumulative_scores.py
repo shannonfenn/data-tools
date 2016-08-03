@@ -20,7 +20,7 @@ def cumulative_scores(df, by, verbose):
     if isinstance(by, str):
         by = [by]
     check_columns_in_dataframe(df, by + [
-        's', 'gen_mean', 'generalisation_score'])
+        's', 'gen_mean', 'gen_score'])
 
     No = get_No(df)
 
@@ -33,15 +33,16 @@ def cumulative_scores(df, by, verbose):
 
     print('Cumulative Generalisation Score')
     for name, group in df.groupby(by):
-        full = np.trapz(group['generalisation_score'], x=group['s'])
+        full = np.trapz(group['gen_score'], x=group['s'])
         per_tgt = [np.trapz(group['gen_score_tgt_{}'.format(i)], x=group['s'])
                    for i in range(No)]
         print(name, ':', full, per_tgt if verbose else '')
 
     print('Cumulative Generalisation Score Ignoring Zeroes')
     for name, group in df.groupby(by):
-        full = np.trapz(group['generalisation_score_non_zero'], x=group['s'])
-        per_tgt = [np.trapz(group['gen_score_tgt_{}_non_zero'.format(i)], x=group['s'])
+        full = np.trapz(group['gen_score_nonzero'], x=group['s'])
+        per_tgt = [np.trapz(group['gen_score_tgt_{}_nonzero'.format(i)],
+                            x=group['s'])
                    for i in range(No)]
         print(name, ':', full, per_tgt if verbose else '')
 
@@ -61,7 +62,7 @@ def main():
 
     df = pd.read_json(args.file)
 
-    cumulative_scores(df, 'optimiser_guiding_function', args.v)
+    cumulative_scores(df, 'guiding_function', args.v)
 
 
 if __name__ == '__main__':
