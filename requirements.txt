@@ -1,0 +1,7 @@
+numpy
+pandas
+palettable
+networkx
+ggplot
+easygui
+python-rapidjson

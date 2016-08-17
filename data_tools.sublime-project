@@ -20,6 +20,6 @@
 	],
 	"settings":
 	{
-		"python_interpreter": "/home/shannon/hyrule/bin/python"
+		"python_interpreter": "python"
 	}
 }
