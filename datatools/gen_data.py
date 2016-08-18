@@ -1,6 +1,7 @@
 import argparse
 import operator
 import numpy as np
+import boolnet.bintools.packing as pk
 
 
 FUNCTIONS = {
@@ -29,21 +30,24 @@ def two_input_mapping(num_bits_per_operand, functor):
 
 
 def dump(func, Ni, No, outfile):
-    inps = np.zeros((len(func), Ni), dtype=np.uint8)
-    tgts = np.zeros((len(func), No), dtype=np.uint8)
+    M = np.zeros((len(func), Ni+No), dtype=np.uint8)
+    # views into M
+    I, T = np.split(M, [Ni], axis=1)
 
-    for idx, inp, out in enumerate(func.items()):
-        inps[idx] = to_binary(inp, Ni)[:Ni]
-        tgts[idx] = to_binary(out, No)[:No]
+    for idx, (inp, out) in enumerate(func.items()):
+        I[idx] = to_binary(inp, Ni)[:Ni]
+        T[idx] = to_binary(out, No)[:No]
 
-    np.savez(outfile, input_matrix=inps, target_matrix=tgts)
+    Mp = pk.pack_bool_matrix(M)
+
+    np.savez(outfile, matrix=Mp, Ni=Ni, Ne=M.shape[0])
 
 
 def main(args):
     if args.outfile:
         out = args.outfile
     else:
-        out = 'functions/{}{}.npz'.format(args.function, args.numbits)
+        out = '{}{}.npz'.format(args.function, args.numbits)
 
     n = args.numbits
 
@@ -53,8 +57,7 @@ def main(args):
     No = n
     if args.outlim:
         No = args.outlim
-    with open(out, 'w') as outfile:
-        dump(func, Ni, No, outfile)
+    dump(func, Ni, No, out)
 
 
 if __name__ == '__main__':
@@ -68,7 +71,7 @@ if __name__ == '__main__':
                         format(list(FUNCTIONS.keys())))
     parser.add_argument('--outfile', type=str,
                         help=('output filename - if omitted will default '
-                              'to functions/[function][n].npz'))
+                              'to [function][n].npz'))
     parser.add_argument('--outlim', metavar='k', type=int,
                         help=('(optional) number of bits to limit output to, '
                               'takes the k least significant.'))
