@@ -6,7 +6,7 @@ setup(
     author='S. Fenn',
     author_email='shannon.fenn@gmail.com',
     packages=['datatools'],
-    scripts=[],
+    scripts=[''],
     url='https://github.com/shannonfenn/data-tools',
     license='LICENSE.txt',
     description='Tools for data generation and handling.',

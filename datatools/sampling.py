@@ -1,5 +1,3 @@
-import argparse
-import os.path
 import numpy as np
 
 
@@ -47,7 +45,7 @@ def check_samples(samples):
               format(num_duplicates, Ns, Ne))
 
 
-def construct_dichotomous_sample_base(operator, Ni, No):
+def construct_nontrivial_sample_base(operator, Ni, No):
     ''' Generates between log2(No) and No + 1 examples such that there is at
         least one example with each target value for each target (that is:
         there is a function expressed by the examples for each target).'''
@@ -73,8 +71,8 @@ def construct_dichotomous_sample_base(operator, Ni, No):
     return so_far
 
 
-def single_unique_valid_sample(operator, Ni, No, Ne, output_vector):
-    so_far = construct_dichotomous_sample_base(operator, Ni, No)
+def single_nontrivial_sample(operator, Ni, No, Ne, output_vector):
+    so_far = construct_nontrivial_sample_base(operator, Ni, No)
 
     for i, example in enumerate(so_far):
         output_vector[i] = example
@@ -87,7 +85,10 @@ def single_unique_valid_sample(operator, Ni, No, Ne, output_vector):
         so_far.add(r)
 
 
-def unique_valid_samples(operator, Ni, No, Ns, Ne):
+def nontrivial_sampling(Ns, Ne, operator_name, Ni, No):
+    # get operator function from name
+    operator = operator_function(operator_name, Ni, No)
+
     if Ne > 2**Ni:
         raise ValueError('Cannot draw {} unique patterns of {} bits.'
                          .format(Ne, Ni))
@@ -95,68 +96,23 @@ def unique_valid_samples(operator, Ni, No, Ns, Ne):
     samples = np.zeros(shape=(Ns, Ne), dtype=np.uint64)
 
     for i in range(Ns):
-        single_unique_valid_sample(operator, Ni, No, Ne, samples[i])
+        single_nontrivial_sample(operator, Ni, No, Ne, samples[i])
 
+    check_samples(samples)  # for errors
     return samples
 
 
-def generate_and_dump_samples(operator_name, Ni, No, Ns,
-                              Ne, directory, force):
-    # generate filename and ensure it is writtable or force is set
-    fname = '{}_{}_{}_dich_{}_{}.npy'.format(
-        Ni, Ns, Ne, operator_name, No)
-    fname = os.path.join(directory, fname)
-    if not force and os.path.isfile(fname):
-        raise ValueError('File exists and will not be overwritten', fname)
-
-    # get operator function from name
-    operator = operator_function(operator_name, Ni, No)
-
+def simple_sampling(Ns, Ne, N):
     # choose (Ns x Ne) random integers without replacement
-    samples = unique_valid_samples(operator, Ni, No, Ns, Ne)
+    samples = np.zeros(shape=(Ns, Ne), dtype=np.uint64)
+    for i in range(Ns):
+        so_far = set()
+        for k in range(Ne):
+            r = np.uint64(np.random.randint(N))
+            while r in so_far:
+                r = np.uint64(np.random.randint(N))
+            samples[i][k] = r
+            so_far.add(r)
 
-    # check the samples for errors
-    check_samples(samples)
-
-    # Dump to file
-    np.save(fname, samples)
-
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(
-        description='Generate sample indices and '
-        'ensure they are contain both 0 and 1 values for each target for the '
-        'given operator and target number.')
-    parser.add_argument('operator', type=str,
-                        choices=['zero', 'add', 'sub', 'mul', 'and', 'or'],
-                        help='operator to validate for.')
-    parser.add_argument('Ni', type=int, help='number of inputs (total)')
-    parser.add_argument('No', type=int, help='number of outputs (must be <= '
-                        'default for the given operator)')
-    parser.add_argument('num_samples', type=int,
-                        help='number of different samples')
-    parser.add_argument('sample_size', type=int,
-                        help='number of examples in each sample')
-    parser.add_argument('--force', '-f', action="store_true",
-                        help='force overwriting of files')
-    parser.add_argument('--dir', type=str,
-                        default='~/HMRI/experiments/datasets/samples',
-                        help='directory to store file')
-
-    args = parser.parse_args()
-
-    if args.sample_size < args.No + 1:
-        raise ValueError('Sample sizes below No + 1 are not supported. In the '
-                         'worst case this many examples are needed to ensure '
-                         'dichotomous target values for all targets and this '
-                         'is the number of initial samples the greedy '
-                         'construction heuristic will generate.')
-
-    args.dir = os.path.expanduser(args.dir)
-
-    if not os.path.isdir(args.dir):
-        raise OSError('Directory does not exist: {}'.format(args.dir))
-
-    generate_and_dump_samples(
-        args.operator, args.Ni, args.No, args.num_samples,
-        args.sample_size, args.dir, args.force)
+    check_samples(samples)  # for errors
+    return samples

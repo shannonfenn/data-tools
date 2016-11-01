@@ -2,14 +2,7 @@ import palettable
 import networkx as nx
 import pandas as pd
 from itertools import cycle
-import sys
 import os
-
-
-INP_COLOUR = '#ff0000'
-OUT_COLOUR = '#00ff00'
-DANGLING_COLOUR = '#ffffff'
-PALETTE = palettable.colorbrewer.qualitative.Set3_12.hex_colors
 
 
 def get_network_from_result(result):
@@ -37,6 +30,11 @@ def build_digraph_from_network(net):
 
 
 def annotate_graph(G):
+    INP_COLOUR = '#ff0000'
+    OUT_COLOUR = '#00ff00'
+    DANGLING_COLOUR = '#ffffff'
+    PALETTE = palettable.colorbrewer.qualitative.Set3_12.hex_colors
+
     Ni, No, Ng = G.graph['Ni'], G.graph['No'], G.graph['Ng']
     color_cycle = cycle(PALETTE)
     color_map = [next(color_cycle) for o in range(No)]
@@ -98,10 +96,3 @@ def create_graphs(directory, indices=None):
         graph_filename = graph_filename_base + '{}.graphml'.format(i)
         net = get_network_from_result(results.iloc[i])
         draw(net, graph_filename)
-
-
-def main(argv):
-    pass
-
-if __name__ == '__main__':
-    main(sys.argv)

@@ -1,19 +1,17 @@
+import functools
 import numpy as np
-import pandas as pd
-import argparse
-from os.path import splitext
 
 
-def get_Ni(data):
-    if data.Ni.min() == data.Ni.max():
-        return data.Ni.min()
+def get_Ni(df):
+    if df.Ni.min() == df.Ni.max():
+        return df.Ni.min()
     else:
         raise ValueError('Non-uniform Ni')
 
 
-def get_No(data):
-    if data.No.min() == data.No.max():
-        return data.No.min()
+def get_No(df):
+    if df.No.min() == df.No.max():
+        return df.No.min()
     else:
         raise ValueError('Non-uniform No')
 
@@ -57,6 +55,27 @@ def confusion_matrix_reducer(orders):
     if CM is not None:
         CM = CM.tolist()
     return CM
+
+
+def sampling_settings(df):
+    Ni_values = np.unique(df.Ni)
+    if len(Ni_values) > 1:
+        print('More than one Ni')
+        return None
+
+    Ni = Ni_values[0]
+    Ne_values = np.unique(df.Ne)
+    Ne_seed_pairs = []
+
+    for Ne in Ne_values:
+        seeds = np.unique(df[df.Ne == Ne].sample_seed)
+        if len(seeds) > 1:
+            print('More than one ({}) seed for Ne = {}'.format(
+                len(seeds), Ne))
+            return None
+        Ne_seed_pairs.append((Ne, seeds[0]))
+
+    return Ni, Ne_seed_pairs
 
 
 def aggregate_runs(raw, key_columns):
@@ -138,28 +157,40 @@ def aggregate_runs(raw, key_columns):
     return aggregated
 
 
-def main():
-    # scores: generalisation probability and mean generalisation error
-    default_key_columns = ['learner', 'guiding_function', 'Ne']
-    parser = argparse.ArgumentParser(
-        description='Calculate generalisation measures for each combination.')
-    parser.add_argument('infile', type=str)
-    parser.add_argument('outfile', nargs='?', type=str,
-                        help='defaults to \'<infile>_aggregated.json\'')
-    parser.add_argument('--key-columns', type=str, nargs='+',
-                        default=default_key_columns)
-    args = parser.parse_args()
-
-    if args.outfile is None:
-        base, ext = splitext(args.infile)
-        args.outfile = base + '_aggregated' + ext
-
-    df = pd.read_json(args.infile)
-
-    df = aggregate_runs(df, args.key_columns)
-
-    df.to_json(args.outfile, orient='records')
+def trapz(y, df, x_series):
+    x = df.ix[y.index][x_series]
+    return np.trapz(y, x=x)
 
 
-if __name__ == '__main__':
-    main()
+def cumulative_scores(df, by, verbose):
+    if isinstance(by, str):
+        by = [by]
+
+    for c in by + ['s', 'gen_mean', 'gen_score']:
+        if c not in df:
+            raise ValueError('Column not in the dataframe: {}'.format(c))
+
+    No = get_No(df)
+
+    trapz_func = functools.partial(trapz, df=df, weight_series='s')
+
+    aggregations = {
+        'gen_mean': {'cum_gen_prob': trapz_func},
+        'gen_score': {'cum_gen_score': trapz_func},
+        'gen_score_nonzero': {'cum_gen_score_nz': trapz_func}
+    }
+    for i in range(No):
+        # Cumulative Generalisation Probability
+        src = 'gen_tgt_{}_mean'.format(i)
+        dest = 'cgp_t{}'.format(i)
+        aggregations[src] = {dest: trapz_func}
+        # Cumulative Generalisation Score
+        src = 'gen_score_tgt_{}_mean'.format(i)
+        dest = 'cgs_t{}'.format(i)
+        aggregations[src] = {dest: trapz_func}
+        # Cumulative Generalisation Score Ignoring Zeroes
+        src = 'gen_score_tgt_{}_nonzero'.format(i)
+        dest = 'cgsnz_t{}'.format(i)
+        aggregations[src] = {dest: trapz_func}
+
+    return df.groupby(by).agg(aggregations)
