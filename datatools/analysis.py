@@ -78,6 +78,45 @@ def sampling_settings(df):
     return Ni, Ne_seed_pairs
 
 
+def trapz(y, df, x_series):
+    x = df.ix[y.index][x_series]
+    return np.trapz(y, x=x)
+
+
+def cumulative_scores(df, by, verbose):
+    if isinstance(by, str):
+        by = [by]
+
+    for c in by + ['s', 'gen_mean', 'gen_score']:
+        if c not in df:
+            raise ValueError('Column not in the dataframe: {}'.format(c))
+
+    No = get_No(df)
+
+    trapz_func = functools.partial(trapz, df=df, weight_series='s')
+
+    aggregations = {
+        'gen_mean': {'cum_gen_prob': trapz_func},
+        'gen_score': {'cum_gen_score': trapz_func},
+        'gen_score_nonzero': {'cum_gen_score_nz': trapz_func}
+    }
+    for i in range(No):
+        # Cumulative Generalisation Probability
+        src = 'gen_tgt_{}_mean'.format(i)
+        dest = 'cgp_t{}'.format(i)
+        aggregations[src] = {dest: trapz_func}
+        # Cumulative Generalisation Score
+        src = 'gen_score_tgt_{}_mean'.format(i)
+        dest = 'cgs_t{}'.format(i)
+        aggregations[src] = {dest: trapz_func}
+        # Cumulative Generalisation Score Ignoring Zeroes
+        src = 'gen_score_tgt_{}_nonzero'.format(i)
+        dest = 'cgsnz_t{}'.format(i)
+        aggregations[src] = {dest: trapz_func}
+
+    return df.groupby(by).agg(aggregations)
+
+
 def aggregate_runs(raw, key_columns):
     No = get_No(raw)
     for t in range(No):
@@ -153,44 +192,4 @@ def aggregate_runs(raw, key_columns):
     # record normalised sample size
     Ni = get_Ni(raw)
     aggregated['s'] = aggregated.Ne / 2**Ni
-
     return aggregated
-
-
-def trapz(y, df, x_series):
-    x = df.ix[y.index][x_series]
-    return np.trapz(y, x=x)
-
-
-def cumulative_scores(df, by, verbose):
-    if isinstance(by, str):
-        by = [by]
-
-    for c in by + ['s', 'gen_mean', 'gen_score']:
-        if c not in df:
-            raise ValueError('Column not in the dataframe: {}'.format(c))
-
-    No = get_No(df)
-
-    trapz_func = functools.partial(trapz, df=df, weight_series='s')
-
-    aggregations = {
-        'gen_mean': {'cum_gen_prob': trapz_func},
-        'gen_score': {'cum_gen_score': trapz_func},
-        'gen_score_nonzero': {'cum_gen_score_nz': trapz_func}
-    }
-    for i in range(No):
-        # Cumulative Generalisation Probability
-        src = 'gen_tgt_{}_mean'.format(i)
-        dest = 'cgp_t{}'.format(i)
-        aggregations[src] = {dest: trapz_func}
-        # Cumulative Generalisation Score
-        src = 'gen_score_tgt_{}_mean'.format(i)
-        dest = 'cgs_t{}'.format(i)
-        aggregations[src] = {dest: trapz_func}
-        # Cumulative Generalisation Score Ignoring Zeroes
-        src = 'gen_score_tgt_{}_nonzero'.format(i)
-        dest = 'cgsnz_t{}'.format(i)
-        aggregations[src] = {dest: trapz_func}
-
-    return df.groupby(by).agg(aggregations)
