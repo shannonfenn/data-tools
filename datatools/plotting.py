@@ -4,55 +4,59 @@ import matplotlib.pyplot as plt
 import statsmodels.stats.api as sms
 
 
-def plot_with_conf_int(grouped, cols, colormap, labelmap, show_confs=True,
-                       alpha=0.05, agg_func=np.mean, axis_modifier=None,
-                       outfilename=None):
-    # set the ordering to that given by cols
-    agged = grouped.agg({col: np.mean for col in cols})[cols]
-    if labelmap:
-        labels = [labelmap[col] for col in cols]
-        agged = agged.rename(columns={c: l for c, l in zip(cols, labels)})
+def mean_conf_int(grouped, alpha):
+    return grouped.agg({
+        'centre': np.mean,
+        'lower': lambda x: sms.DescrStatsW(x).tconfint_mean(alpha)[0] - np.mean(x),
+        'upper': lambda x: sms.DescrStatsW(x).tconfint_mean(alpha)[1] - np.mean(x)
+    })
 
-    mpl_colormap = mpl.colors.ListedColormap([colormap[col] for col in cols])
 
-    ax = agged.plot(marker='.', colormap=mpl_colormap)
-    if show_confs:
-        conf_lower = grouped.agg({col: lambda x: sms.DescrStatsW(x).tconfint_mean(alpha)[0] for col in cols})
-        conf_upper = grouped.agg({col: lambda x: sms.DescrStatsW(x).tconfint_mean(alpha)[1] for col in cols})
-        for col in cols:
-            ax.fill_between(conf_lower.index, conf_lower[col], conf_upper[col],
-                            alpha=0.25, linewidth=0, color=colormap[col])
+def plot_with_errs(ax, data, label=None, color=None, marker=None, linestyle=None, err_style=None):
+    if err_style == 'band':
+        ax = data.centre.plot(ax=ax, label=label, marker=marker, color=color, style=linestyle, mec=color)
+        l = data.lower + data.centre
+        u = data.upper + data.centre
+        ax.fill_between(data.centre.index, l, u, alpha=0.25, linewidth=0, color=color)
+    elif err_style == 'bars':
+        err = abs(np.vstack((data.lower, data.upper)))
+        ax = data.centre.plot(ax=ax, label=label, marker=marker, color=color, yerr=err, style=linestyle, mec=color)
+    else:
+        ax = data.centre.plot(ax=ax, label=label, marker=marker, color=color, style=linestyle, mec=color)
 
-    if axis_modifier is not None:
+
+def filter_rename_groupby(df, by, oldcols, newcols):
+    df = df[['s'] + oldcols]
+    df = df.rename(columns=dict(zip(oldcols, newcols)))
+    return df.groupby('s')
+
+
+def single_plot(df, cols, colormap, markermap, linestylemap, legendmap={},
+                err_style='band', alpha=0.05, axis_modifier=None):
+    if not legendmap:
+        legendmap = {c: c for c in cols}  # identity dict
+    fig, ax = plt.subplots()
+    grouped = filter_rename_groupby(df, 's', cols, cols)
+    for c in cols:
+        data = mean_conf_int(grouped[c], alpha)
+        plot_with_errs(ax, data, legendmap[c], colormap[c], markermap[c],
+                       linestylemap[c], err_style)
+    axis_modifier(ax)
+    return fig
+
+
+def multi_plot(df, targets, basecols, colormap, markermap, linestylemap,
+               legendmap={}, err_style='band', alpha=0.05, axis_modifier=None):
+    if not legendmap:
+        legendmap = {c: c for c in basecols}  # identity dict
+    fig, axes = plt.subplots(len(targets), 1, sharex=True, sharey=True)
+
+    for t, ax in zip(targets, axes):
+        tgt_cols = ['{} target {}'.format(c, t) for c in basecols]
+        grouped = filter_rename_groupby(df, 's', tgt_cols, basecols)
+        for c in basecols:
+            data = mean_conf_int(grouped[c], alpha)
+            plot_with_errs(ax, data, legendmap[c], colormap[c], markermap[c],
+                           linestylemap[c], err_style)
         axis_modifier(ax)
-
-    if outfilename is not None:
-        plt.savefig(outfilename, format='pdf', dpi=1200)
-
-    return ax
-
-
-def multi_plot(df, No, cols, colormap, labelmap={}, save=False, file_prefix='',
-               axis_modifier=None):
-    grouped = df.groupby('s')
-    axes = []
-    if not labelmap:
-        labelmap = {c: c for c in cols}  # identity dict
-
-    # group by Ne and get the mean error difference
-    fname = '{}_all_tgts.pdf'.format(file_prefix) if save else None
-    ax = plot_with_conf_int(grouped, cols, colormap, labelmap, show_confs=True,
-                            alpha=0.05, axis_modifier=axis_modifier,
-                            outfilename=fname)
-    axes.append(ax)
-
-    for t in range(No):
-        fname = '{}_t{}.pdf'.format(file_prefix, t) if save else None
-        subcols = ['{} target {}'.format(c, t) for c in cols]
-        cm = {'{} target {}'.format(c, t): colormap[c] for c in cols}
-        lm = {'{} target {}'.format(c, t): labelmap[c] for c in cols}
-        ax = plot_with_conf_int(grouped, subcols, cm, lm, show_confs=True,
-                                alpha=0.05, axis_modifier=axis_modifier,
-                                outfilename=fname)
-        axes.append(ax)
-    return axes
+    return fig
