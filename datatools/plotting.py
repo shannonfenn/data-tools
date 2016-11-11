@@ -29,7 +29,8 @@ def single_plot(ax, df, cols, centre, lower, upper, colormap,
     for c in cols:
         plot_with_errs(ax, df[c], centre, lower, upper, legendmap[c],
                        colormap[c], markermap[c], linestylemap[c], err_style)
-    axis_modifier(ax)
+    if axis_modifier:
+        axis_modifier(ax)
 
 
 def multi_plot(axes, df, basecols, targets, centre, lower, upper, colormap,
@@ -45,4 +46,5 @@ def multi_plot(axes, df, basecols, targets, centre, lower, upper, colormap,
             plot_with_errs(ax, data[c], centre, lower, upper, legendmap[c],
                            colormap[c], markermap[c], linestylemap[c],
                            err_style)
-        axis_modifier(ax)
+        if axis_modifier:
+            axis_modifier(ax)
