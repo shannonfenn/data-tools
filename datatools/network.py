@@ -1,5 +1,6 @@
 import networkx as nx
 import numpy as np
+from itertools import chain
 
 
 def build_digraph_from_network(net):
@@ -37,6 +38,13 @@ def find_dangling(G):
         dangling -= {output}
         dangling -= set(nx.ancestors(G, output))
     return dangling
+
+
+def connectivity(G):
+    Ni, No, Ng = G.graph['Ni'], G.graph['No'], G.graph['Ng']
+    connected = chain.from_iterable(nx.ancestors(G, Ni+Ng-o-1) for o in range(No))
+    connected = np.unique(list(connected))
+    return len(connected) / (Ng - No)
 
 
 def greedy_compression_onepass(state, debug=False):
