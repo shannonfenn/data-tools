@@ -5,15 +5,15 @@ import matplotlib.pyplot as plt
 def plot_with_errs(ax, data, centre, lower=None, upper=None, label=None,
                    color=None, marker=None, linestyle=None, err_style=None):
     if err_style == 'band':
-        ax = data[centre].plot(ax=ax, label=label, marker=marker, color=color, style=linestyle, mec=color)
+        ax = data[centre].plot(ax=ax, label=label, marker=marker, color=color, ls=linestyle, mec=color)
         l = data[centre] - data[lower]
         u = data[centre] + data[upper]
         ax.fill_between(data[centre].index, l, u, alpha=0.25, linewidth=0, color=color)
     elif err_style == 'bars':
         err = abs(np.vstack((data[lower], data[upper])))
-        ax = data[centre].plot(ax=ax, label=label, marker=marker, color=color, yerr=err, style=linestyle, mec=color)
+        ax = data[centre].plot(ax=ax, label=label, marker=marker, color=color, ls=linestyle, yerr=[err], mec=color)
     else:
-        ax = data[centre].plot(ax=ax, label=label, marker=marker, color=color, style=linestyle, mec=color)
+        ax = data[centre].plot(ax=ax, label=label, marker=marker, color=color, ls=linestyle, mec=color)
 
 
 def filter_rename(df, oldcols, newcols):
