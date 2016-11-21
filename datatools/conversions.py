@@ -23,3 +23,21 @@ def numpy_to_weka(filename, relation_name, att_names, attributes, comment=''):
     header += '\n@DATA\n'
 
     np.savetxt(filename, attributes, fmt='%d', delimiter=',', header=header)
+
+
+def abk_file(features, target, file_name):
+    n_examples, n_features = features.shape
+
+    feature_numbers = np.reshape(np.arange(n_features), (n_features, 1))
+
+    abk_data = np.hstack((feature_numbers, features.T))
+
+    sample_names = '\t'.join('s' + str(i) for i in range(n_examples))
+
+    header = 'FEATURESINROWS\nTARGETPRESENT\nLAST\n{}\n{}\ndummy\t{}'.format(
+        n_features, n_examples, sample_names)
+
+    target_row = '\t' + '\t'.join(str(x) for x in target) + '\n'
+
+    np.savetxt(file_name, abk_data, fmt='%d', delimiter='\t',
+               header=header, footer=target_row, comments='')
