@@ -3,8 +3,7 @@ import numpy as np
 from itertools import chain
 
 
-def build_digraph_from_network(net):
-    gates, Ni, No = net.gates, net.Ni, net.No
+def build_digraph(gates, Ni, No):
     Ng = len(gates)
     G = nx.DiGraph()
     G.add_nodes_from(range(Ni))

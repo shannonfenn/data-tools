@@ -1,5 +1,5 @@
 import argparse
-import datatools.mappingfile as mf
+import datatools.mappings as mp
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
@@ -7,9 +7,9 @@ if __name__ == '__main__':
     parser.add_argument('numbits', type=int,
                         help='number of input bits per operand')
     parser.add_argument('function', metavar='function',
-                        choices=mf.FUNCTIONS.keys(),
+                        choices=mp.FUNCTIONS.keys(),
                         help='function to generate data for, one of: {}.'.
-                        format(list(mf.FUNCTIONS.keys())))
+                        format(list(mp.FUNCTIONS.keys())))
     parser.add_argument('--outfile', type=str,
                         help=('output filename - if omitted will default '
                               'to [function][n].npz'))
@@ -17,4 +17,4 @@ if __name__ == '__main__':
                         help=('(optional) number of bits to limit output to, '
                               'takes the k least significant.'))
     args = parser.parse_args()
-    mf.mapping_to_file(args.function, args.numbits, args.outlim, args.outfile)
+    mp.mapping_to_file(args.function, args.numbits, args.outlim, args.outfile)
