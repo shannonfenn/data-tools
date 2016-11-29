@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def numpy_to_weka(filename, relation_name, att_names, attributes, comment=''):
+def numpy_to_weka(ostream, relation_name, att_names, attributes, comment=''):
     """ writes NumPy arrays with data to WEKA format .arff files
 
         input:  relation_name (string with a description),
@@ -22,10 +22,10 @@ def numpy_to_weka(filename, relation_name, att_names, attributes, comment=''):
 
     header += '\n@DATA\n'
 
-    np.savetxt(filename, attributes, fmt='%d', delimiter=',', header=header)
+    np.savetxt(ostream, attributes, fmt='%d', delimiter=',', header=header)
 
 
-def abk_file(features, target, file_name):
+def abk_file(ostream, features, target):
     n_examples, n_features = features.shape
 
     feature_numbers = np.reshape(np.arange(n_features), (n_features, 1))
@@ -39,5 +39,5 @@ def abk_file(features, target, file_name):
 
     target_row = '\t' + '\t'.join(str(x) for x in target) + '\n'
 
-    np.savetxt(file_name, abk_data, fmt='%d', delimiter='\t',
+    np.savetxt(ostream, abk_data, fmt='%d', delimiter='\t',
                header=header, footer=target_row, comments='')
