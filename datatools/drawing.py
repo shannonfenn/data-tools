@@ -47,9 +47,8 @@ def label_last_connected_output(G):
         G.node[g]['connected_output'] = l
 
 
-def draw_bn(net, ax, show_dangling=True, node_size=400, reposition=False):
+def draw_bn(G, ax, show_dangling=True, node_size=400, reposition=False):
     # fig, ax = plt.subplots()
-    G = nt.build_digraph_from_network(net)
     annotate_graph(G)
     pos = nx.drawing.nx_agraph.graphviz_layout(G, 'dot')
 
