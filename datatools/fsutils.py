@@ -46,12 +46,15 @@ def duplicate_patterns(X, names=None):
     return duplicates
 
 
-def is_valid_function(X, y):
+def is_valid_function(X, y, verbose=False):
     l = [tuple(row) for row in X]
     sorted_indices = sorted(range(len(l)), key=lambda k: l[k])
 
     for i0, i1 in zip(sorted_indices[:-1], sorted_indices[1:]):
         if l[i0] == l[i1] and y[i0] != y[i1]:
+            if verbose:
+                print('{} ({}->{}) and {} ({}->{}) not separated'.format(
+                    i0, l[i0], y[i0], i1, l[i1], y[i1]))
             return False
     return True
 
