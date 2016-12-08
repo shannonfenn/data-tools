@@ -1,7 +1,7 @@
 import numpy as np
 import scipy.stats as st
 import scipy.spatial.distance as dst
-import boolnet.learning.feature_selection as fss
+import minfs.feature_selection as fss
 
 
 def break_rank_ties(ranking):
