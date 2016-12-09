@@ -1,6 +1,6 @@
 import operator
 import numpy as np
-import boolnet.bintools.packing as pk
+import bitpacking.packing as pk
 
 
 FUNCTIONS = {
