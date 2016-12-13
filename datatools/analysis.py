@@ -65,6 +65,7 @@ def sampling_settings(df):
 
     Ni = Ni_values[0]
     Ne_values = np.unique(df.Ne)
+
     Ne_seed_pairs = []
 
     for Ne in Ne_values:

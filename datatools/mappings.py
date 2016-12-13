@@ -1,6 +1,7 @@
 import operator
 import numpy as np
 import bitpacking.packing as pk
+from boolnet.utils import PackedMatrix
 
 
 FUNCTIONS = {
@@ -37,7 +38,7 @@ def binmap_from_function(func, Ni, No):
         I[idx] = to_binary(inp, Ni)[:Ni]
         T[idx] = to_binary(out, No)[:No]
 
-    return pk.BitPackedMatrix(pk.pack_bool_matrix(M), M.shape[0], Ni)
+    return PackedMatrix(pk.packmat(M), M.shape[0], Ni)
 
 
 def mapping_to_file(function, numbits, numout_limit, outfile):
@@ -58,4 +59,4 @@ def mapping_to_file(function, numbits, numout_limit, outfile):
 
 def mapping_from_file(filename):
     with np.load(filename) as f:
-        return pk.BitPackedMatrix(f['matrix'], f['Ne'], f['Ni'])
+        return PackedMatrix(f['matrix'], f['Ne'], f['Ni'])
