@@ -4,6 +4,8 @@ import numpy as np
 
 def overlap(A, B):
     A, B = set(A), set(B)
+    if len(A) == 0 or len(B) == 0:
+        return 0
     return len(A & B) / min(len(A), len(B))
 
 
