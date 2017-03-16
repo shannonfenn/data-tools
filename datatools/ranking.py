@@ -4,7 +4,7 @@ import scipy.spatial.distance as dst
 import minfs.feature_selection as fss
 
 
-def break_ties(ranking):
+def rank_with_ties_broken(ranking):
     ranking = np.array(ranking, copy=True)
     for r in range(ranking.size):
         # find all tied indices
@@ -23,7 +23,7 @@ def cost_rank(costs, break_ties=False):
     rank = fss.order_to_ranking_with_ties(
         order, lambda i1, i2: costs[i1] == costs[i2])
     if break_ties:
-        rank = break_ties(rank)
+        rank = rank_with_ties_broken(rank)
     return rank
 
 
