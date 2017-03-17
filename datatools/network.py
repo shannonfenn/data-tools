@@ -46,6 +46,20 @@ def connectivity(G):
     return len(connected) / (Ng - No)
 
 
+def per_strata_connectivity(G):
+    Ni, No, Ng = G.graph['Ni'], G.graph['No'], G.graph['Ng']
+    Ng_tgt = int((Ng-No) / No)
+    assert Ng_tgt == (Ng-No)/No
+    connected = chain.from_iterable(nx.ancestors(G, Ni+Ng-o-1) for o in range(No))
+    connected = np.unique(list(connected))
+    C = []
+    for t in range(No):
+        C_tgt = np.logical_and(Ni + Ng_tgt*t <= connected,
+                               connected < Ni + Ng_tgt*(t+1)).sum()
+        C.append(C_tgt / Ng_tgt)
+    return C
+
+
 def greedy_compression_onepass(state, debug=False):
     # finds an smaller depth network with the same activation matrix
     Ni, Ng = state.Ni, state.Ng
