@@ -2,6 +2,13 @@ import datatools.ranking as rk
 import numpy as np
 
 
+def inverse_permutation(permutation):
+    inverse = np.zeros_like(permutation)
+    for i, p in enumerate(permutation):
+        inverse[p] = i
+    return inverse
+
+
 def overlap(A, B):
     A, B = set(A), set(B)
     if len(A) == 0 or len(B) == 0:
