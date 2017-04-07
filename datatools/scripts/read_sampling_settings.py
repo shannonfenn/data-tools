@@ -1,6 +1,6 @@
 import argparse
 import pandas as pd
-from datatools.sampling import sampling_settings
+from datatools.analysis import sampling_settings
 
 
 if __name__ == '__main__':
