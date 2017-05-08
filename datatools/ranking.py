@@ -2,6 +2,7 @@ import numpy as np
 import scipy.stats as st
 import scipy.spatial.distance as dst
 import minfs.feature_selection as fss
+import itertools
 
 
 def rank_with_ties_broken(ranking):
@@ -29,6 +30,18 @@ def cost_rank(costs, break_ties=False):
 
 def kendalltau(p, q):
     return st.kendalltau(p, q)[0]
+
+
+def kendalltaudistance(p, q):
+    pairs = itertools.combinations(range(0, len(p)), 2)
+    distance = 0
+    for x, y in pairs:
+        a = p[x] - p[y]
+        b = q[x] - q[y]
+        # if discordant (different signs)
+        if (a * b < 0):
+            distance += 1
+    return distance
 
 
 def manh(p, q):
