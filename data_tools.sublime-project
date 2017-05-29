@@ -1,7 +1,7 @@
 {
 	"SublimeLinter":
 	{
-		"@python": 3
+		"@python": "3"
 	},
 	"build_systems":
 	[
