@@ -54,3 +54,17 @@ def hamm(p, q):
 
 def num_decreases(p, q):
     return sum(v1 > v2 for v1, v2 in zip(p[q][:-1], p[q][1:]))
+
+
+def partial_tau(pairs, ref_pairs):
+    # fails if perm is not a permutation
+    inverse_pairs = {(j, i) for i, j in pairs}
+    concordant = set(pairs) & set(ref_pairs)
+    discordant = set(inverse_pairs) & set(ref_pairs)
+    distance = len(concordant) - len(discordant)
+#     return concordant, discordant
+    return distance / len(ref_pairs)
+
+
+def pairs_from_total_order(order):
+    return [(order[i], order[j]) for i in range(len(order)) for j in range(i+1, len(order))]
