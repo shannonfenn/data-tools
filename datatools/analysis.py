@@ -118,6 +118,13 @@ def cumulative_scores(df, by, verbose):
     return df.groupby(by).agg(aggregations)
 
 
+def target_ordered_strata_sizes(row):
+    if isinstance(row.strata_sizes, list):
+        return [row.strata_sizes[i] for i in row.tgt_order]
+    else:
+        return row.strata_sizes
+
+
 def aggregate_runs(raw, key_columns):
     No = get_No(raw)
     for t in range(No):
@@ -141,7 +148,7 @@ def aggregate_runs(raw, key_columns):
 
     # training data
     cols_to_keep = dict()
-    cols_to_keep['trg_error'] = [np.mean, np.std, mean_nonzero]
+    cols_to_keep['trg_err'] = [np.mean, np.std, mean_nonzero]
     cols_to_keep['mem'] = np.mean
     cols_to_keep.update(
         {'mem_tgt_{}'.format(t): np.mean for t in range(No)})
