@@ -1,5 +1,7 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 def plot_with_errs(ax, data, centre, lower=None, upper=None, label=None,
@@ -48,3 +50,30 @@ def multi_plot(axes, df, basecols, targets, centre, lower, upper, colormap,
                            err_style)
         if axis_modifier:
             axis_modifier(ax)
+
+
+def multi_tgt_plot(df, base_col, target_names, treatment_cols,
+                   plot_func=plt.plot, agg_func=np.mean,
+                   facet_kwargs={}, plot_kwargs={}):
+    value_vars = [base_col] + [base_col+'_{}'.format(t) for t in target_names]
+
+    df_long = pd.melt(df, id_vars=['Ne'] + treatment_cols,
+                      value_vars=value_vars)
+
+    df_long.replace([r'^'+base_col+r'$', r'^'+base_col+r'_(.*)$'],
+                    [r'overall', r'\1'], regex=True, inplace=True)
+
+    df_long['treatment'] = list(zip(*[df_long[tr] for tr in treatment_cols]))
+
+    df_long['treatment'] = df_long['treatment'].apply(str)
+    df_long.rename(columns={'variable': 'target', 'value': base_col},
+                   inplace=True)
+
+    grp = df_long.groupby(['Ne', 'treatment', 'target'], as_index=False)
+    grp = grp.agg(agg_func)
+
+    g = sns.FacetGrid(grp, col='target', hue='treatment', **facet_kwargs)
+    g.map(plot_func, 'Ne', base_col, **plot_kwargs)
+    g.add_legend()
+
+    return g
