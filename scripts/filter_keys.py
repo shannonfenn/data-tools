@@ -4,27 +4,27 @@ import rapidjson as json
 from os.path import splitext
 
 
-def filtered(line, key_regex):
+def remove_keys(record, key_regex):
     # record = json.loads(line, precise_float=True)
-    record = json.loads(line)
     keys_to_remove = set()
     for key in record:
         if key_regex.fullmatch(key):
             keys_to_remove.add(key)
     record = {k: record[k] for k in record.keys() - keys_to_remove}
-    return json.dumps(record)
+    return record
 
 
-def filter_file(infile, outfile, key_regex):
-    line = infile.readline()
-    line = filtered(line[1:], key_regex)   # first line starts with '['
-    outfile.write('[' + line + '\n')
-    for line in infile:
+def filter_file(istream, ostream, key_regex):
+    for line in istream:
         # ignore the final line (it will be added back in later)
         if not line.startswith(']'):
-            line = filtered(line[1:], key_regex)
-            outfile.write(',' + line + '\n')
-    outfile.write(']\n')
+            sep, line = line[0], line[1:]
+            record = json.loads(line)
+            record = remove_keys(record, key_regex)
+            line = json.dumps(record)
+            ostream.write(sep + line + '\n')
+        else:
+            ostream.write(line)
 
 
 def main():
@@ -40,6 +40,8 @@ def main():
 
     regex = re.compile('|'.join(['final_net', 'training_indices',
                                  'intermediate_network_\\d+']))
+
+    assert args.infile != args.outfile
 
     with open(args.infile) as infile, open(args.outfile, 'w') as outfile:
         filter_file(infile, outfile, regex)
