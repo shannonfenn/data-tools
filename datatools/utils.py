@@ -1,5 +1,6 @@
 import datatools.ranking as rk
 import numpy as np
+import itertools
 
 
 def inverse_permutation(permutation):
@@ -68,15 +69,13 @@ def is_valid_function(X, y, verbose=False):
     return True
 
 
-def ambiguous_patterns(X, y, names=None, flatten=False):
-    ambiguous = []
-    for duplicate_indices in duplicate_patterns(X):
-        if len(np.unique(y[duplicate_indices])) > 1:
-            # more than one target value for the same pattern
-            if names is not None:
-                duplicate_indices = [names[i] for i in duplicate_indices]
-            if flatten:
-                ambiguous.extend(duplicate_indices)
-            else:
-                ambiguous.append(duplicate_indices)
-    return ambiguous
+def ambiguous_patterns(X, Y, flatten=False):
+    Y = Y.reshape(Y.shape[0], -1)  # cast vectors to nx1 arrays
+    ambiguous = (batch
+                 for batch in duplicate_patterns(X)
+                 if len(np.unique(Y[batch], axis=0)) > 1)
+
+    if flatten:
+        ambiguous = itertools.chain.from_iterable(ambiguous)
+
+    return list(ambiguous)
