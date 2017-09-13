@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 import argparse
 import pandas as pd
 from datatools.analysis import sampling_settings

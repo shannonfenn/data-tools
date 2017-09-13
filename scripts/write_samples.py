@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 import datatools.sampling as sampling
 import numpy as np
 import argparse

@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 import pandas as pd
 import datatools.analysis as an
 import argparse
