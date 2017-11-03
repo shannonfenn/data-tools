@@ -2,6 +2,9 @@ try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
+from glob import glob
+import os.path
+
 
 setup(
     name='datatools',
@@ -9,16 +12,7 @@ setup(
     # author='S. Fenn',
     # author_email='shannon.fenn@gmail.com',
     # # packages=['datatools'],
-    scripts=['scripts/aggregate_results.py',
-             'scripts/collapse_keys.py',
-             'scripts/cumulative_scores.py',
-             'scripts/filter_keys.py',
-             'scripts/join_completed.py',
-             'scripts/json2numpy.py',
-             'scripts/read_sampling_settings.py',
-             'scripts/write_bool_mapping.py',
-             'scripts/write_nontrivial_samples.py',
-             'scripts/write_samples.py'],
+    scripts=glob(os.path.join('scripts', '*.py')),
     # url='https://github.com/shannonfenn/data-tools',
     # license='LICENSE.txt',
     # description='Tools for data generation and handling.',
