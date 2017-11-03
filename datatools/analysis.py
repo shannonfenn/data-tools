@@ -21,11 +21,11 @@ def mean_nonzero(col):
 
 
 def accuracy(orders):
-    CM = confusion_matrix(orders)
-    if CM is None:
+    C = confusion_matrix(orders)
+    if C is None:
         return None
     else:
-        return CM.trace() / CM.sum()
+        return C.trace() / C.sum()
 
 
 def confusion_matrix(orders):
@@ -43,18 +43,18 @@ def confusion_matrix(orders):
     if orders.max() >= num_vals or orders.min() < 0:
         raise ValueError('Input array has values outside [0, num_vals)')
 
-    CM = np.zeros((num_vals, num_vals), dtype=int)
+    C = np.zeros((num_vals, num_vals), dtype=int)
     for i in range(num_vals):
         indices, counts = np.unique(orders[:, i], return_counts=True)
-        CM[i, indices] = counts
-    return CM
+        C[i, indices] = counts
+    return C
 
 
 def confusion_matrix_reducer(orders):
-    CM = confusion_matrix(orders)
-    if CM is not None:
-        CM = CM.tolist()
-    return CM
+    C = confusion_matrix(orders)
+    if C is not None:
+        C = C.tolist()
+    return C
 
 
 def sampling_settings(df):
@@ -94,7 +94,7 @@ def cumulative_scores(df, by, verbose):
 
     No = get_No(df)
 
-    trapz_func = functools.partial(trapz, df=df, weight_series='s')
+    trapz_func = functools.partial(trapz, df=df, x_series='s')
 
     aggregations = {
         'gen_mean': {'cum_gen_prob': trapz_func},
