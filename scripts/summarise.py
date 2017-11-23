@@ -32,7 +32,7 @@ def trapz(y, df, x_series):
     return np.trapz(y, x=x)
 
 
-def summarise(df, key_columns, val_columns):
+def summarise(df, key_columns, val_columns, aggregators):
     df['treatment'] = df[key_columns[0]].apply(str)
     for c in key_columns[1:]:
         df['treatment'] += ' / ' + df[c].apply(str)
@@ -45,7 +45,7 @@ def summarise(df, key_columns, val_columns):
 
     grp = df_long.groupby(['variable', 'treatment', 'Ne'])
 
-    grp = grp['value'].agg(['count', 'min', 'mean', 'max']).reset_index()
+    grp = grp['value'].agg(aggregators).reset_index()
 
     cumulative = functools.partial(trapz, df=grp, x_series='Ne')
     g2 = grp.groupby(['variable', 'treatment'])
@@ -55,21 +55,27 @@ def summarise(df, key_columns, val_columns):
 def main():
     default_key_columns = ['learner', 'guiding_function']
     default_val_columns = ['trg_mcc', 'test_mcc', 'learning_time']
+    default_aggregators = ['count', 'min', 'mean', 'max']
 
     parser = argparse.ArgumentParser(
         description='Summarise results with cumulative scores.')
     parser.add_argument('infile', type=argparse.FileType())
     parser.add_argument('--key-columns', '-k', type=str, nargs='+',
-                        default=default_key_columns)
+                        metavar='str', default=default_key_columns,
+                        help='default: ' + ' '.join(default_key_columns))
     parser.add_argument('--val-columns', '-v', type=str, nargs='+',
-                        default=default_val_columns)
+                        metavar='str', default=default_val_columns,
+                        help='default: ' + ' '.join(default_val_columns))
+    parser.add_argument('--aggregators', '-a', type=str, nargs='+',
+                        metavar='str', default=default_aggregators,
+                        help='default: ' + ' '.join(default_aggregators))
     args = parser.parse_args()
 
     df = pd.read_json(args.infile)
 
     pd.set_option('display.precision', 3)
 
-    print(summarise(df, args.key_columns, args.val_columns))
+    print(summarise(df, args.key_columns, args.val_columns, args.aggregators))
 
 
 if __name__ == '__main__':
