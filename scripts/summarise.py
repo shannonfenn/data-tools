@@ -37,6 +37,10 @@ def summarise(df, key_columns, val_columns):
     for c in key_columns[1:]:
         df['treatment'] += ' / ' + df[c].apply(str)
 
+    for v in val_columns:
+        # sum list-values, pass-through others
+        df[v] = df[v].apply(lambda x: sum(x) if isinstance(x, list) else x)
+
     df_long = pd.melt(df, id_vars=['treatment', 'Ne'], value_vars=val_columns)
 
     grp = df_long.groupby(['variable', 'treatment', 'Ne'])
