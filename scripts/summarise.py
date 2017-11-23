@@ -59,9 +59,9 @@ def main():
     parser = argparse.ArgumentParser(
         description='Summarise results with cumulative scores.')
     parser.add_argument('infile', type=argparse.FileType())
-    parser.add_argument('--key-columns', type=str, nargs='+',
+    parser.add_argument('--key-columns', '-k', type=str, nargs='+',
                         default=default_key_columns)
-    parser.add_argument('--val-columns', type=str, nargs='+',
+    parser.add_argument('--val-columns', '-v', type=str, nargs='+',
                         default=default_val_columns)
     args = parser.parse_args()
 
