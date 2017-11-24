@@ -32,7 +32,7 @@ def trapz(y, df, x_series):
     return np.trapz(y, x=x)
 
 
-def summarise(df, key_columns, val_columns, aggregators):
+def summarise(df, key_columns, val_columns, aggregators, cumulative):
     df['treatment'] = df[key_columns[0]].apply(str)
     for c in key_columns[1:]:
         df['treatment'] += ' / ' + df[c].apply(str)
@@ -43,13 +43,18 @@ def summarise(df, key_columns, val_columns, aggregators):
 
     df_long = pd.melt(df, id_vars=['treatment', 'Ne'], value_vars=val_columns)
 
-    grp = df_long.groupby(['variable', 'treatment', 'Ne'])
+    if cumulative:
+        grp = df_long.groupby(['variable', 'treatment', 'Ne'])
 
-    grp = grp['value'].agg(aggregators).reset_index()
+        grp = grp['value'].agg(aggregators).reset_index()
 
-    cumulative = functools.partial(trapz, df=grp, x_series='Ne')
-    g2 = grp.groupby(['variable', 'treatment'])
-    return g2.agg(cumulative).drop('Ne', axis=1)
+        cumulative = functools.partial(trapz, df=grp, x_series='Ne')
+        g2 = grp.groupby(['variable', 'treatment'])
+        return g2.agg(cumulative).drop('Ne', axis=1)
+    else:
+        grp = df_long.groupby(['variable', 'treatment'])
+
+        return grp['value'].agg(aggregators)
 
 
 def main():
@@ -69,13 +74,23 @@ def main():
     parser.add_argument('--aggregators', '-a', type=str, nargs='+',
                         metavar='str', default=default_aggregators,
                         help='default: ' + ' '.join(default_aggregators))
+    parser.add_argument('--cumulative', '-c', action='store_true',
+                        help='Calculate cumulative measure over Ne (can give '
+                             'odd results for some accumulators)')
     args = parser.parse_args()
+
+    custom_aggregators = {'count_nonzero': np.count_nonzero}
+    args.aggregators = [custom_aggregators[name]
+                        if name in custom_aggregators
+                        else name
+                        for name in args.aggregators]
 
     df = pd.read_json(args.infile)
 
     pd.set_option('display.precision', 3)
 
-    print(summarise(df, args.key_columns, args.val_columns, args.aggregators))
+    print(summarise(df, args.key_columns, args.val_columns,
+                    args.aggregators, args.cumulative))
 
 
 if __name__ == '__main__':
