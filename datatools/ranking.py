@@ -1,8 +1,24 @@
 import numpy as np
 import scipy.stats as st
 import scipy.spatial.distance as dst
-import minfs.feature_selection as fss
 import itertools
+
+
+def order_to_ranking_with_ties(order, tied):
+    # build ranking from the above order (with ties)
+    ranking = np.zeros(len(order), dtype=int)
+
+    # check ranking from 2nd element in order
+    # first element is rank 0 automatically by np.zeros
+    for i in range(1, len(order)):
+        i1 = order[i-1]
+        i2 = order[i]
+        if tied(i1, i2):
+            # tie - continuing using current ranking
+            ranking[i2] = ranking[i1]
+        else:
+            ranking[i2] = i
+    return ranking
 
 
 def rank_with_ties_broken(ranking):
@@ -21,7 +37,7 @@ def cost_rank(costs, break_ties=False):
     # sort by cardinality
     order = np.argsort(costs)
     # convert this to a ranking - accounting for ties in cardinality
-    rank = fss.order_to_ranking_with_ties(
+    rank = order_to_ranking_with_ties(
         order, lambda i1, i2: costs[i1] == costs[i2])
     if break_ties:
         rank = rank_with_ties_broken(rank)
