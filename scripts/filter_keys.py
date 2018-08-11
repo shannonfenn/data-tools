@@ -18,16 +18,10 @@ def remove_keys(record, key_regex):
 
 def filter_file(istream, ostream, key_regex):
     for line in istream:
-        # ignore the final line (it will be added back in later)
-        if not line.startswith(']'):
-            sep, line = line[0], line[1:]
-            record = json.loads(line)
-            record = remove_keys(record, key_regex)
-            line = json.dumps(record)
-            ostream.write(sep + line + '\n')
-        else:
-            ostream.write(line)
-
+        record = json.loads(line)
+        record = remove_keys(record, key_regex)
+        ostream.write(json.dumps(record))
+        ostream.write('\n')
 
 def main():
     parser = argparse.ArgumentParser(
