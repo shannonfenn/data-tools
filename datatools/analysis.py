@@ -60,8 +60,7 @@ def confusion_matrix_reducer(orders):
 def sampling_settings(df):
     Ni_values = np.unique(df.Ni)
     if len(Ni_values) > 1:
-        print('More than one Ni')
-        return None
+        raise ValueError('More than one Ni')
 
     Ni = Ni_values[0]
     Ne_values = np.unique(df.Ne)
@@ -71,9 +70,8 @@ def sampling_settings(df):
     for Ne in Ne_values:
         seeds = np.unique(df[df.Ne == Ne].sample_seed)
         if len(seeds) > 1:
-            print('More than one ({}) seed for Ne = {}'.format(
+            raise ValueError('More than one ({}) seed for Ne = {}'.format(
                 len(seeds), Ne))
-            return None
         Ne_seed_pairs.append((Ne, seeds[0]))
 
     return Ni, Ne_seed_pairs
