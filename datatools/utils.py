@@ -63,3 +63,24 @@ def ambiguous_patterns(X, Y, flatten=False):
         ambiguous = itertools.chain.from_iterable(ambiguous)
 
     return list(ambiguous)
+
+
+# for calculating AUC style measures
+def norm_trapz(y, df, x_series):
+    x = df.iloc[y.index][x_series]
+    if x.max() == x.min():
+        return np.nan
+    return np.trapz(y, x=x) / (x.max() - x.min())
+
+
+def cumulative(df, kdims, vdim, idim, aggregators):
+    if isinstance(aggregators, list):
+        aggregators = {f.__name__: f for f in aggregators}
+    grp = df.groupby(kdims + [idim])[vdim]
+    grp = grp.agg(aggregators.values()).reset_index()
+    grp = grp.rename(columns={func.__name__: new_name
+                              for new_name, func in aggregators.items()})
+    summary = grp.groupby(kdims).agg(
+        functools.partial(norm_trapz, df=grp, x_series=idim))
+    summary.drop(columns=idim, inplace=True)
+    return summary.reset_index()
