@@ -1,6 +1,7 @@
 import datatools.ranking as rk
 import numpy as np
 import itertools
+import functools
 
 
 def inverse_permutation(permutation):
@@ -8,23 +9,6 @@ def inverse_permutation(permutation):
     for i, p in enumerate(permutation):
         inverse[p] = i
     return inverse
-
-
-def overlap(A, B):
-    A, B = set(A), set(B)
-    if len(A) == 0 or len(B) == 0:
-        return 0
-    return len(A & B) / min(len(A), len(B))
-
-
-def nestedness(F):
-    # F is assumed to be ordered
-    O = [overlap(f1, f2) for f1, f2 in zip(F[:-1], F[1:])]
-    return sum(O) / len(O)
-
-
-def cardinality_rank(cardinalities, break_ties=False):
-    return rk.cost_rank(cardinalities, break_ties)
 
 
 def unique_rows(X):
