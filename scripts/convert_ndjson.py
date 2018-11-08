@@ -5,26 +5,28 @@ import lzma
 import os.path
 
 
-def convert(infilename):
+def convert(infilename, open_method):
     base, ext = os.path.splitext(infilename)
     outfilename = base + '_ndjsonconverted' + ext
 
     print('Reading...')
 
-    with lzma.open(infilename) as infile:
+    with open_method(infilename, 'rt') as infile:
+        if infile.read(1) == '{':
+            print('Already in ndjson format.')
+            return
+        infile.seek(0)
+
         lines = infile.readlines()
 
-    if lines[0].startswith(b'['):
         print('Converting...')
         # not in ldjson format
-        with lzma.open(outfilename, 'w') as outfile:
+        with open_method(outfilename, 'wt') as outfile:
             for line in lines:
                 line = line[1:].strip()
                 if line:
-                    outfile.write(line + b'\n')
+                    outfile.write(line + '\n')
         print(f'done. Stored in {outfilename}')
-    else:
-        print('Already in ndjson format.')
 
 
 def main():
@@ -33,7 +35,12 @@ def main():
     # Process arguments
     args = parser.parse_args()
 
-    convert(args.file)
+    if args.file.endswith('.xz'):
+        open_method = lzma.open
+    else:
+        open_method = open
+
+    convert(args.file, open_method)
 
 
 if __name__ == '__main__':
