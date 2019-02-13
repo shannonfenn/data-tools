@@ -23,6 +23,7 @@ def filter_file(istream, ostream, key_regex):
         ostream.write(json.dumps(record))
         ostream.write('\n')
 
+
 def main():
     parser = argparse.ArgumentParser(
         description='Filter long entries out of records.')
@@ -34,8 +35,10 @@ def main():
         base, ext = splitext(args.infile)
         args.outfile = base + '_filtered' + ext
 
-    regex = re.compile('|'.join(['final_net', 'training_indices',
-                                 'intermediate_network_\\d+']))
+    regex = re.compile('|'.join([
+        'final_net', 'training_indices',
+        'intermediate_network_\\d+',
+        'max_depth_tgt_\\d+']))
 
     assert args.infile != args.outfile
 
