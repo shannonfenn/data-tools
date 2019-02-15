@@ -41,7 +41,7 @@ def find_dangling(G):
 
 def utilisation(G):
     Ni, No, Ng = G.graph['Ni'], G.graph['No'], G.graph['Ng']
-    connected = chain.from_iterable(nx.ancestors(G, Ni+Ng-o-1) for o in range(No))
+    connected = chain.from_iterable(nx.ancestors(G, Ni+Ng-No+o) for o in range(No))
     connected = np.unique(list(connected))
     return len(connected) / (Ng - No)
 
@@ -50,7 +50,7 @@ def per_strata_utilisation(G):
     Ni, No, Ng = G.graph['Ni'], G.graph['No'], G.graph['Ng']
     Ng_tgt = int((Ng-No) / No)
     assert Ng_tgt == (Ng-No)/No
-    connected = chain.from_iterable(nx.ancestors(G, Ni+Ng-o-1) for o in range(No))
+    connected = chain.from_iterable(nx.ancestors(G, Ni+Ng-No+o) for o in range(No))
     connected = np.unique(list(connected))
     C = []
     for t in range(No):
