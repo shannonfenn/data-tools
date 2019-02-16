@@ -1,6 +1,5 @@
 import numpy as np
 import itertools
-import functools
 
 
 def inverse_permutation(permutation):
@@ -62,38 +61,3 @@ def ambiguous_patterns(X, Y, flatten=False):
         ambiguous = itertools.chain.from_iterable(ambiguous)
 
     return list(ambiguous)
-
-
-# for calculating AUC style measures
-def norm_trapz(y):
-    x = y.index
-    width = x.max() - x.min()
-    if width == 0:
-        return np.nan
-    return np.trapz(y, x=x) / width
-
-
-def cumulative_pre_aggregate(df, kdims, vdim, idim, aggregators):
-    def _old_norm_trapz(y, df, x_series):
-        x = df.iloc[y.index][x_series]
-        if x.max() == x.min():
-            return np.nan
-        return np.trapz(y, x=x) / (x.max() - x.min())
-    if isinstance(aggregators, list):
-        aggregators = {f.__name__: f for f in aggregators}
-    grp = df.groupby(kdims + [idim])[vdim]
-    grp = grp.agg(aggregators.values()).reset_index()
-    grp = grp.rename(columns={func.__name__: new_name
-                              for new_name, func in aggregators.items()})
-    summary = grp.groupby(kdims).agg(
-        functools.partial(_old_norm_trapz, df=grp, x_series=idim))
-    summary.drop(columns=idim, inplace=True)
-    return summary.reset_index()
-
-
-def cumulative_sample(df, kdims, vdims, idim):
-    df = df.set_index(idim)
-    df = df.sort_index()
-    grouped = df.groupby(kdims)[vdims]
-    summary = grouped.agg(norm_trapz)
-    return summary.reset_index()
